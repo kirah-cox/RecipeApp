@@ -1,3 +1,8 @@
 <Solution>
+  <Folder Name="/Tests/">
+    <Project Path="TestIngredients/TestIngredients.csproj" />
+    <Project Path="TestRecipes/TestRecipes.csproj" />
+    <Project Path="TestShoppingList/TestShoppingList.csproj" />
+  </Folder>
   <Project Path="RecipeApp/RecipeApp.csproj" />
 </Solution>
