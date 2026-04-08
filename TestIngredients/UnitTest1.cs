@@ -1,4 +1,8 @@
-﻿namespace TestIngredients
+﻿
+
+using RecipeApp.Classes;
+
+namespace TestIngredients
 {
     public class UnitTest1
     {
