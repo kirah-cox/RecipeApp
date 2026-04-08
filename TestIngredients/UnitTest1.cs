@@ -7,9 +7,76 @@ namespace TestIngredients
     public class UnitTest1
     {
         [Fact]
-        public void Test1()
+        public void CanAddIngredientToDictionary()
         {
+            Ingredient ingredient = new Ingredient("Apple", "Fruit", 0.75m);
 
+            ingredient.AddIngredient();
+
+            Assert.True(App.Ingredients.ContainsKey(ingredient));
+        }
+
+        [Fact]
+        public void CanAddMultipleIngredientsToDictionary()
+        {
+            Ingredient ingredient = new Ingredient("Apple", "Fruit", 0.75m);
+
+            ingredient.AddIngredient();
+            ingredient.AddIngredient();
+
+            Assert.True(App.Ingredients[ingredient] == 2);
+        }
+
+        [Fact]
+        public void CanRemoveIngredientFromDictionary()
+        {
+            Ingredient ingredient = new Ingredient("Apple", "Fruit", 0.75m);
+
+            ingredient.AddIngredient();
+
+            Assert.True(App.Ingredients.ContainsKey(ingredient));
+
+            ingredient.RemoveIngredient();
+
+            Assert.True(App.Ingredients[ingredient] == 0);
+        }
+
+        [Fact]
+        public void CanRemoveMultipleIngredientFromDictionary()
+        {
+            Ingredient ingredient = new Ingredient("Apple", "Fruit", 0.75m);
+
+            ingredient.AddIngredient();
+            ingredient.AddIngredient();
+
+            Assert.True(App.Ingredients[ingredient] == 2);
+
+            ingredient.RemoveIngredient();
+            ingredient.RemoveIngredient();
+
+            Assert.True(App.Ingredients[ingredient] == 0);
+        }
+
+        [Fact]
+        public void CheckIfOwnedWorks()
+        {
+            Ingredient ingredient = new Ingredient("Apple", "Fruit", 0.75m);
+
+            ingredient.AddIngredient();
+
+            Assert.True(ingredient.CheckIfOwned());
+        }
+
+        [Fact]
+        public void CheckIfOwnedReturnsFalseAfterRemovingAllIngredients()
+        {
+            Ingredient ingredient = new Ingredient("Apple", "Fruit", 0.75m);
+
+            ingredient.AddIngredient();
+
+            ingredient.RemoveIngredient();
+
+            Assert.False(ingredient.CheckIfOwned());
         }
     }
 }
