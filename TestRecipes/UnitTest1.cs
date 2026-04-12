@@ -8,7 +8,13 @@ namespace TestRecipes
         [Fact]
         public void CanAddRecipeToList()
         {
-            Recipe recipe = new Recipe("pie", "Bake");
+            App.Recipes.Clear();
+
+            Dictionary<Ingredient, int> ingredients = new Dictionary<Ingredient, int>();
+            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
+            ingredients.Add(new Ingredient("apple", "fruit", 0.70m), 3);
+
+            Recipe recipe = new Recipe("pie", "Bake", ingredients);
 
             recipe.AddRecipe();
 
@@ -18,8 +24,18 @@ namespace TestRecipes
         [Fact]
         public void CanAddMultipleRecipesToList()
         {
-            Recipe recipe = new Recipe("pie", "Bake");
-            Recipe recipe2 = new Recipe("pie2", "Bake2");
+            App.Recipes.Clear();
+
+            Dictionary<Ingredient, int> ingredients = new Dictionary<Ingredient, int>();
+            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
+            ingredients.Add(new Ingredient("apple", "fruit", 0.70m), 3);
+
+            Dictionary<Ingredient, int> ingredients2 = new Dictionary<Ingredient, int>();
+            ingredients2.Add(new Ingredient("flour", "grain", 3.00m), 2);
+            ingredients2.Add(new Ingredient("apple", "fruit", 0.70m), 3);
+
+            Recipe recipe = new Recipe("pie", "Bake", ingredients);
+            Recipe recipe2 = new Recipe("pie2", "Bake2", ingredients2);
 
             recipe.AddRecipe();
             recipe2.AddRecipe();
@@ -30,7 +46,13 @@ namespace TestRecipes
         [Fact]
         public void CanRemoveRecipeFromList()
         {
-            Recipe recipe = new Recipe("pie", "Bake");
+            App.Recipes.Clear();
+
+            Dictionary<Ingredient, int> ingredients = new Dictionary<Ingredient, int>();
+            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
+            ingredients.Add(new Ingredient("apple", "fruit", 0.70m), 3);
+
+            Recipe recipe = new Recipe("pie", "Bake", ingredients);
 
             recipe.AddRecipe();
 
@@ -44,8 +66,18 @@ namespace TestRecipes
         [Fact]
         public void CanRemoveMultipleRecipesFromList()
         {
-            Recipe recipe = new Recipe("pie", "Bake");
-            Recipe recipe2 = new Recipe("pie2", "Bake2");
+            App.Recipes.Clear();
+
+            Dictionary<Ingredient, int> ingredients = new Dictionary<Ingredient, int>();
+            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
+            ingredients.Add(new Ingredient("apple", "fruit", 0.70m), 3);
+
+            Dictionary<Ingredient, int> ingredients2 = new Dictionary<Ingredient, int>();
+            ingredients2.Add(new Ingredient("flour", "grain", 3.00m), 2);
+            ingredients2.Add(new Ingredient("apple", "fruit", 0.70m), 3);
+
+            Recipe recipe = new Recipe("pie", "Bake", ingredients);
+            Recipe recipe2 = new Recipe("pie2", "Bake2", ingredients2);
 
             recipe.AddRecipe();
             recipe2.AddRecipe();
@@ -61,7 +93,13 @@ namespace TestRecipes
         [Fact]
         public void CheckIfOwnedWorks()
         {
-            Recipe recipe = new Recipe("pie", "Bake");
+            App.Recipes.Clear();
+
+            Dictionary<Ingredient, int> ingredients = new Dictionary<Ingredient, int>();
+            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
+            ingredients.Add(new Ingredient("apple", "fruit", 0.70m), 3);
+
+            Recipe recipe = new Recipe("pie", "Bake", ingredients);
 
             recipe.AddRecipe();
 
@@ -71,7 +109,13 @@ namespace TestRecipes
         [Fact]
         public void CheckIfOwnedReturnsFalseAfterRemovingRecipe()
         {
-            Recipe recipe = new Recipe("pie", "Bake");
+            App.Recipes.Clear();
+
+            Dictionary<Ingredient, int> ingredients = new Dictionary<Ingredient, int>();
+            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
+            ingredients.Add(new Ingredient("apple", "fruit", 0.70m), 3);
+
+            Recipe recipe = new Recipe("pie", "Bake", ingredients);
 
             recipe.AddRecipe();
             recipe.RemoveRecipe();
@@ -82,29 +126,53 @@ namespace TestRecipes
         [Fact]
         public void CheckIfEditRecipeWorks()
         {
-            Recipe recipe = new Recipe("pie", "Bake");
+            App.Recipes.Clear();
+
+            Dictionary<Ingredient, int> ingredients = new Dictionary<Ingredient, int>();
+            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
+            ingredients.Add(new Ingredient("apple", "fruit", 0.70m), 3);
+
+            Dictionary<Ingredient, int> ingredients2 = new Dictionary<Ingredient, int>();
+            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
+            ingredients.Add(new Ingredient("cherry", "fruit", 0.70m), 15);
+
+            Recipe recipe = new Recipe("pie", "Bake", ingredients);
 
             recipe.AddRecipe();
 
             Assert.True(App.Recipes.Contains(recipe));
 
-            recipe.EditRecipe("pie", "Cook");
+            recipe.EditRecipe("pie", "Cook", ingredients2);
 
-            Assert.True(recipe.Name == "pie" && recipe.Instructions == "Cook");
+            Assert.True(recipe.Name == "pie" && recipe.Instructions == "Cook" && recipe.Ingredients == ingredients2);
         }
 
 
         [Fact]
         public void CheckIfEditRecipeWorksWithTwoEdits()
         {
-            Recipe recipe = new Recipe("pie", "Bake");
+            App.Recipes.Clear();
+
+            Dictionary<Ingredient, int> ingredients = new Dictionary<Ingredient, int>();
+            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
+            ingredients.Add(new Ingredient("apple", "fruit", 0.70m), 3);
+
+            Dictionary<Ingredient, int> ingredients2 = new Dictionary<Ingredient, int>();
+            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
+            ingredients.Add(new Ingredient("cherry", "fruit", 0.70m), 15);
+
+            Dictionary<Ingredient, int> ingredients3 = new Dictionary<Ingredient, int>();
+            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
+            ingredients.Add(new Ingredient("peach", "fruit", 0.70m), 4);
+
+            Recipe recipe = new Recipe("pie", "Bake", ingredients);
 
             recipe.AddRecipe();
 
             Assert.True(App.Recipes.Contains(recipe));
 
-            recipe.EditRecipe("pie", "Cook");
-            recipe.EditRecipe("pie", "Make");
+            recipe.EditRecipe("pie", "Cook", ingredients2);
+            recipe.EditRecipe("pie", "Make", ingredients3);
 
 
             Assert.True(recipe.Name == "pie" && recipe.Instructions == "Make");
