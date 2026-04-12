@@ -2,7 +2,7 @@
 {
     public class App
     {
-        public List<Recipe> Recipes { get; set; }
+        public static List<Recipe> Recipes = new List<Recipe>();
 
     }
 }

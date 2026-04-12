@@ -13,19 +13,23 @@
         }
         public void AddRecipe()
         {
-            return;
+            App.Recipes.Add(this);
         }
-        public void RemoveRecipe(Recipe recipe) 
+        public void RemoveRecipe() 
         { 
-            return;
+            if(App.Recipes.Contains(this)) 
+                App.Recipes.Remove(this);
         }
-        public bool CheckIfOwned(Recipe recipe)
+        public bool CheckIfOwned()
         {
+            if (App.Recipes.Contains(this))
+                return true;
             return false;
         }
-        public void EditRecipe(Recipe recipe)
+        public void EditRecipe(String newName, String newInstructions)
         {
-            return; 
+            this.Name = newName;
+            this.Instructions = newInstructions;
         }
     }
 }
