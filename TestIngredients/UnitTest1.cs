@@ -11,7 +11,7 @@ namespace TestIngredients
         {
             Ingredient ingredient = new Ingredient("Apple", "Fruit", 0.75m);
 
-            ingredient.AddIngredient();
+            ingredient.AddIngredient(1);
 
             Assert.True(App.Ingredients.ContainsKey(ingredient));
         }
@@ -21,8 +21,7 @@ namespace TestIngredients
         {
             Ingredient ingredient = new Ingredient("Apple", "Fruit", 0.75m);
 
-            ingredient.AddIngredient();
-            ingredient.AddIngredient();
+            ingredient.AddIngredient(2);
 
             Assert.True(App.Ingredients[ingredient] == 2);
         }
@@ -32,11 +31,11 @@ namespace TestIngredients
         {
             Ingredient ingredient = new Ingredient("Apple", "Fruit", 0.75m);
 
-            ingredient.AddIngredient();
+            ingredient.AddIngredient(1);
 
             Assert.True(App.Ingredients.ContainsKey(ingredient));
 
-            ingredient.RemoveIngredient();
+            ingredient.RemoveIngredient(1);
 
             Assert.True(App.Ingredients[ingredient] == 0);
         }
@@ -46,13 +45,11 @@ namespace TestIngredients
         {
             Ingredient ingredient = new Ingredient("Apple", "Fruit", 0.75m);
 
-            ingredient.AddIngredient();
-            ingredient.AddIngredient();
+            ingredient.AddIngredient(2);
 
             Assert.True(App.Ingredients[ingredient] == 2);
 
-            ingredient.RemoveIngredient();
-            ingredient.RemoveIngredient();
+            ingredient.RemoveIngredient(2);
 
             Assert.True(App.Ingredients[ingredient] == 0);
         }
@@ -62,7 +59,7 @@ namespace TestIngredients
         {
             Ingredient ingredient = new Ingredient("Apple", "Fruit", 0.75m);
 
-            ingredient.AddIngredient();
+            ingredient.AddIngredient(1);
 
             Assert.True(ingredient.CheckIfOwned());
         }
@@ -72,9 +69,9 @@ namespace TestIngredients
         {
             Ingredient ingredient = new Ingredient("Apple", "Fruit", 0.75m);
 
-            ingredient.AddIngredient();
+            ingredient.AddIngredient(1);
 
-            ingredient.RemoveIngredient();
+            ingredient.RemoveIngredient(1);
 
             Assert.False(ingredient.CheckIfOwned());
         }

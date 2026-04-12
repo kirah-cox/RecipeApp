@@ -13,23 +13,23 @@
             Price = price;
         }
 
-        public void AddIngredient()
+        public void AddIngredient(int amount)
         {
             if (!CheckIfOwned())
             {
-                App.Ingredients.Add(this, 1);
+                App.Ingredients.Add(this, amount);
             }
             else
             {
-                App.Ingredients[this]++;
+                App.Ingredients[this] += amount;
             }
         }
 
-        public void RemoveIngredient()
+        public void RemoveIngredient(int amount)
         {
             if (CheckIfOwned())
             {
-                App.Ingredients[this]--;
+                App.Ingredients[this] -= amount;
             }
         }
 
