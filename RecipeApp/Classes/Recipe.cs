@@ -32,5 +32,22 @@
             this.Instructions = newInstructions;
             this.Ingredients = newIngredients;
         }
+        public static Dictionary<Recipe, int> SuggestRecipeBasedOnIngredients()
+        {
+            Dictionary<Recipe, int> allRecipes = new Dictionary<Recipe, int>();
+            foreach (Recipe recipe in App.Recipes)
+            {
+                allRecipes.Add(recipe, 0);
+                foreach(var ingredient in App.Ingredients)
+                {
+                    if(recipe.Ingredients.Contains(ingredient))
+                    {
+                        allRecipes[recipe] += 1;
+                    }
+                }
+            }
+            allRecipes.OrderBy(x => x.Value);
+            return allRecipes;
+        }
     }
 }
