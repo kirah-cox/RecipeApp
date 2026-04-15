@@ -1,0 +1,63 @@
+﻿@page "/ingredients"
+@rendermode InteractiveServer
+@using RecipeApp.Classes
+
+@code{
+    private bool DisplayAddIngredientModal = false;
+    private string IngredientName;
+    private string IngredientType;
+    private decimal IngredientPrice;
+
+    private void AddIngredientButton()
+    {
+        DisplayAddIngredientModal = true;
+    }
+
+    private void SaveIngredient()
+    {
+        Ingredient ingredient = new Ingredient(IngredientName, IngredientType, IngredientPrice);
+        Classes.App.Ingredients.Add(ingredient, 1);
+
+        IngredientName = IngredientType = string.Empty;
+        IngredientPrice = 0;
+
+        DisplayAddIngredientModal = false;
+    }
+
+    private void RemoveModal()
+    {
+        DisplayAddIngredientModal = false;
+    }
+}
+
+
+<PageTitle>Ingredients</PageTitle>
+
+<h1>Ingredients</h1>
+
+<ul>
+    @foreach(var ingredient in Classes.App.Ingredients)
+    {
+        <li>@ingredient</li>
+    }
+</ul>
+
+<button @onclick="AddIngredientButton">Add Ingredient</button>
+
+@if (DisplayAddIngredientModal)
+{
+    <form @onsubmit="SaveIngredient">
+        <label>Name:</label><br>
+        <input type="text" @bind="IngredientName"><br>
+
+        <label>Type:</label><br>
+        <input type="text" @bind="IngredientType"><br>
+
+        <label>Price:</label><br>
+        <input type="text" @bind="IngredientPrice"><br><br>
+
+        <button type="submit">Save</button>
+    </form>
+    @RemoveModal;
+}
+
