@@ -9,7 +9,7 @@ namespace TestIngredients
         [Fact]
         public void CanAddIngredientToDictionary()
         {
-            Ingredient ingredient = new Ingredient("Apple", "Fruit", 0.75m);
+            Ingredient ingredient = new Ingredient("Apple", IngredientType.Fruit, 0.75m);
 
             ingredient.AddIngredient(1);
 
@@ -19,7 +19,7 @@ namespace TestIngredients
         [Fact]
         public void CanAddMultipleIngredientsToDictionary()
         {
-            Ingredient ingredient = new Ingredient("Apple", "Fruit", 0.75m);
+            Ingredient ingredient = new Ingredient("Apple", IngredientType.Fruit, 0.75m);
 
             ingredient.AddIngredient(2);
 
@@ -29,7 +29,7 @@ namespace TestIngredients
         [Fact]
         public void CanRemoveIngredientFromDictionary()
         {
-            Ingredient ingredient = new Ingredient("Apple", "Fruit", 0.75m);
+            Ingredient ingredient = new Ingredient("Apple", IngredientType.Fruit, 0.75m);
 
             ingredient.AddIngredient(1);
 
@@ -43,7 +43,7 @@ namespace TestIngredients
         [Fact]
         public void CanRemoveMultipleIngredientFromDictionary()
         {
-            Ingredient ingredient = new Ingredient("Apple", "Fruit", 0.75m);
+            Ingredient ingredient = new Ingredient("Apple", IngredientType.Fruit, 0.75m);
 
             ingredient.AddIngredient(2);
 
@@ -57,7 +57,7 @@ namespace TestIngredients
         [Fact]
         public void CheckIfOwnedWorks()
         {
-            Ingredient ingredient = new Ingredient("Apple", "Fruit", 0.75m);
+            Ingredient ingredient = new Ingredient("Apple", IngredientType.Fruit, 0.75m);
 
             ingredient.AddIngredient(1);
 
@@ -67,7 +67,7 @@ namespace TestIngredients
         [Fact]
         public void CheckIfOwnedReturnsFalseAfterRemovingAllIngredients()
         {
-            Ingredient ingredient = new Ingredient("Apple", "Fruit", 0.75m);
+            Ingredient ingredient = new Ingredient("Apple", IngredientType.Fruit, 0.75m);
 
             ingredient.AddIngredient(1);
 

@@ -4,14 +4,35 @@
 
 @code{
     private bool DisplayAddIngredientModal = false;
+    private bool DisplayEditIngredientModal = false;
     private string IngredientName;
-    private string IngredientType;
+    private IngredientType IngredientType;
     private decimal IngredientPrice = 0.00m;
-    private int IngredientAmount = 0;
+    private int IngredientAmount = 1;
+    private Ingredient? SelectedIngredient;
+    private int SelectedAmount;
 
     private void AddIngredientButton()
     {
         DisplayAddIngredientModal = true;
+    }
+
+    private void EditIngredientButton(Ingredient ingredient, int amount)
+    {
+        SelectedIngredient = ingredient;
+        SelectedAmount = amount;
+
+        IngredientName = SelectedIngredient.Name;
+        IngredientType = SelectedIngredient.Type;
+        IngredientPrice = SelectedIngredient.Price;
+        IngredientAmount = SelectedAmount;
+        
+        DisplayEditIngredientModal = true;
+    }
+
+    private void DeleteIngredientButton(Ingredient ingredient, int amount)
+    {
+        ingredient.RemoveIngredient(amount);
     }
 
     private void SaveIngredient()
@@ -19,11 +40,32 @@
         Ingredient ingredient = new Ingredient(IngredientName, IngredientType, IngredientPrice);
         ingredient.AddIngredient(IngredientAmount);
 
-        IngredientName = IngredientType = string.Empty;
+        IngredientName = string.Empty;
+        IngredientType = IngredientType.None;
         IngredientPrice = 0.00m;
-        IngredientAmount = 0;
+        IngredientAmount = 1;
 
         DisplayAddIngredientModal = false;
+        DisplayEditIngredientModal = false;
+    }
+
+    private void EditIngredient()
+    {
+        if (SelectedIngredient != null)
+        {
+            SelectedIngredient.Name = IngredientName;
+            SelectedIngredient.Type = IngredientType;
+            SelectedIngredient.Price = IngredientPrice;
+            SelectedIngredient.AddIngredient(IngredientAmount - SelectedAmount);
+        }
+
+        IngredientName = string.Empty;
+        IngredientType = IngredientType.None;
+        IngredientPrice = 0.00m;
+        IngredientAmount = 1;
+
+        DisplayAddIngredientModal = false;
+        DisplayEditIngredientModal = false;
     }
 }
 
@@ -37,6 +79,7 @@
         <th>Type</th>
         <th>Price</th>
         <th>Value</th>
+        <th>Action</th>
     </tr>
     @foreach (var ingredient in Classes.App.Ingredients)
     {
@@ -45,6 +88,10 @@
             <td>@ingredient.Key.Type</td>
             <td>@ingredient.Key.Price</td>
             <td>@ingredient.Value</td>
+            <td>
+                <button @onclick="() => EditIngredientButton(ingredient.Key, ingredient.Value)">Edit</button>
+                <button @onclick="() => DeleteIngredientButton(ingredient.Key, ingredient.Value)">Delete</button>
+            </td>
         </tr>
     }
 </table>
@@ -55,18 +102,64 @@
 {
     <form @onsubmit="SaveIngredient">
         <label>Name:</label><br>
-        <input type="text" @bind="IngredientName"><br>
+        <input type="text" @bind="IngredientName" maxlength="30"><br>
 
         <label>Type:</label><br>
-        <input type="text" @bind="IngredientType"><br>
+            <select @bind="IngredientType">
+                <option>@IngredientType.Vegetable</option>
+                <option>@IngredientType.Fruit</option>
+                <option>@IngredientType.Grain</option>
+                <option>@IngredientType.Legume</option>
+                <option>@IngredientType.Dairy</option>
+                <option>@IngredientType.Egg</option>
+                <option>@IngredientType.Meat</option>
+                <option>@IngredientType.Seafood</option>
+                <option>@IngredientType.Poultry</option>
+                <option>@IngredientType.Sweetener</option>
+                <option>@IngredientType.Liquid</option>
+                <option>@IngredientType.Seasoning</option>
+                <option>@IngredientType.Other</option>
+            </select><br>
 
         <label>Price:</label><br>
-        <input type="text" @bind="IngredientPrice"><br><br>
+        <input type="text" @bind="IngredientPrice"><br>
 
         <label>Amount:</label><br>
-        <input type="text" @bind="IngredientAmount"><br><br>
+        <input type="number" @bind="IngredientAmount" min="1"><br>
 
         <button type="submit">Save</button>
     </form>
 }
 
+@if (DisplayEditIngredientModal)
+{
+    <form @onsubmit="EditIngredient">
+        <label>Name:</label><br>
+        <input type="text" @bind="IngredientName" maxlength="30"><br>
+
+        <label>Type:</label><br>
+            <select @bind="IngredientType">
+                <option>@IngredientType.Vegetable</option>
+                <option>@IngredientType.Fruit</option>
+                <option>@IngredientType.Grain</option>
+                <option>@IngredientType.Legume</option>
+                <option>@IngredientType.Dairy</option>
+                <option>@IngredientType.Egg</option>
+                <option>@IngredientType.Meat</option>
+                <option>@IngredientType.Seafood</option>
+                <option>@IngredientType.Poultry</option>
+                <option>@IngredientType.Sweetener</option>
+                <option>@IngredientType.Liquid</option>
+                <option>@IngredientType.Seasoning</option>
+                <option>@IngredientType.Other</option>
+            </select><br>
+
+        <label>Price:</label><br>
+        <input type="text" @bind="IngredientPrice"><br>
+
+        <label>Amount:</label><br>
+        <input type="number" @bind="IngredientAmount" min="1"><br>
+
+        <button type="submit">Save</button>
+    </form>
+}

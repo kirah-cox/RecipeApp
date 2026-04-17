@@ -3,10 +3,10 @@
     public class Ingredient
     {
         public string Name { get; set; }
-        public string Type { get; set; }
+        public IngredientType Type { get; set; }
         public decimal Price { get; set; }
 
-        public Ingredient(string name, string type, decimal price)
+        public Ingredient(string name, IngredientType type, decimal price)
         {
             Name = name;
             Type = type;
@@ -21,7 +21,7 @@
             }
             else
             {
-                var existingIngredient = Classes.App.Ingredients
+                var existingIngredient = App.Ingredients
                     .FirstOrDefault(i =>
                         i.Key.Name == this.Name &&
                         i.Key.Type == this.Type &&
@@ -36,11 +36,16 @@
             {
                 App.Ingredients[this] -= amount;
             }
+
+            if (App.Ingredients[this] <= 0)
+            {
+                App.Ingredients.Remove(this);
+            }
         }
 
         public bool CheckIfOwned()
         {
-            var existingIngredient = Classes.App.Ingredients
+            var existingIngredient = App.Ingredients
             .FirstOrDefault(i =>
                 i.Key.Name == this.Name &&
                 i.Key.Type == this.Type &&
@@ -51,5 +56,23 @@
             
             return false;
         }
+    }
+
+    public enum IngredientType
+    {
+        None,
+        Other,
+        Vegetable,
+        Fruit,
+        Grain,
+        Legume,
+        Dairy,
+        Egg,
+        Meat,
+        Seafood,
+        Poultry,
+        Sweetener,
+        Liquid,
+        Seasoning
     }
 }
