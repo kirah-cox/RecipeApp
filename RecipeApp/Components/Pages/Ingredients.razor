@@ -6,7 +6,8 @@
     private bool DisplayAddIngredientModal = false;
     private string IngredientName;
     private string IngredientType;
-    private decimal IngredientPrice;
+    private decimal IngredientPrice = 0.00m;
+    private int IngredientAmount = 0;
 
     private void AddIngredientButton()
     {
@@ -16,31 +17,37 @@
     private void SaveIngredient()
     {
         Ingredient ingredient = new Ingredient(IngredientName, IngredientType, IngredientPrice);
-        Classes.App.Ingredients.Add(ingredient, 1);
+        ingredient.AddIngredient(IngredientAmount);
 
         IngredientName = IngredientType = string.Empty;
-        IngredientPrice = 0;
+        IngredientPrice = 0.00m;
+        IngredientAmount = 0;
 
-        DisplayAddIngredientModal = false;
-    }
-
-    private void RemoveModal()
-    {
         DisplayAddIngredientModal = false;
     }
 }
-
 
 <PageTitle>Ingredients</PageTitle>
 
 <h1>Ingredients</h1>
 
-<ul>
-    @foreach(var ingredient in Classes.App.Ingredients)
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Price</th>
+        <th>Value</th>
+    </tr>
+    @foreach (var ingredient in Classes.App.Ingredients)
     {
-        <li>@ingredient</li>
+        <tr>
+            <td>@ingredient.Key.Name</td>
+            <td>@ingredient.Key.Type</td>
+            <td>@ingredient.Key.Price</td>
+            <td>@ingredient.Value</td>
+        </tr>
     }
-</ul>
+</table>
 
 <button @onclick="AddIngredientButton">Add Ingredient</button>
 
@@ -56,8 +63,10 @@
         <label>Price:</label><br>
         <input type="text" @bind="IngredientPrice"><br><br>
 
+        <label>Amount:</label><br>
+        <input type="text" @bind="IngredientAmount"><br><br>
+
         <button type="submit">Save</button>
     </form>
-    @RemoveModal;
 }
 

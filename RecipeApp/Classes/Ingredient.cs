@@ -21,7 +21,12 @@
             }
             else
             {
-                App.Ingredients[this] += amount;
+                var existingIngredient = Classes.App.Ingredients
+                    .FirstOrDefault(i =>
+                        i.Key.Name == this.Name &&
+                        i.Key.Type == this.Type &&
+                        i.Key.Price == this.Price);
+                App.Ingredients[existingIngredient.Key] += amount;
             }
         }
 
@@ -35,8 +40,14 @@
 
         public bool CheckIfOwned()
         {
-            if (App.Ingredients.ContainsKey(this) && App.Ingredients[this] != 0)
-            return true;
+            var existingIngredient = Classes.App.Ingredients
+            .FirstOrDefault(i =>
+                i.Key.Name == this.Name &&
+                i.Key.Type == this.Type &&
+                i.Key.Price == this.Price);
+
+            if (existingIngredient.Key != null)
+                return true;
             
             return false;
         }
