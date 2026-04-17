@@ -4,11 +4,13 @@
     {
         public string Name { get; set; }
         public string Instructions { get; set; }
+        public string Genre { get; set; }
         public Dictionary<Ingredient, int> Ingredients { get; set; }
-        public Recipe(string name, string instructions, Dictionary<Ingredient, int> ingredients) 
+        public Recipe(string name, string instructions, string genre, Dictionary<Ingredient, int> ingredients) 
         {
             Name = name;
             Instructions = instructions;
+            Genre = genre;
             Ingredients = ingredients;
         }
         public void AddRecipe()
@@ -48,6 +50,18 @@
             }
             allRecipes.OrderBy(x => x.Value);
             return allRecipes;
+        }
+        public static List<Recipe> SuggestRecipeBasedOnGenre(string genre)
+        {
+            List<Recipe> sortedRecipes = new List<Recipe>();
+            foreach (Recipe recipe in App.Recipes)
+            {
+                if (recipe.Genre == genre)
+                {
+                    sortedRecipes.Add(recipe);
+                }
+            }
+            return sortedRecipes;
         }
     }
 }
