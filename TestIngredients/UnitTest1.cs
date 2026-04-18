@@ -9,7 +9,9 @@ namespace TestIngredients
         [Fact]
         public void CanAddIngredientToDictionary()
         {
-            Ingredient ingredient = new Ingredient("Apple", "Fruit", 0.75m);
+            App.Ingredients.Clear();
+
+            Ingredient ingredient = new Ingredient("Apple", IngredientType.Fruit, 0.75m);
 
             ingredient.AddIngredient(1);
 
@@ -19,7 +21,9 @@ namespace TestIngredients
         [Fact]
         public void CanAddMultipleIngredientsToDictionary()
         {
-            Ingredient ingredient = new Ingredient("Apple", "Fruit", 0.75m);
+            App.Ingredients.Clear();
+
+            Ingredient ingredient = new Ingredient("Apple", IngredientType.Fruit, 0.75m);
 
             ingredient.AddIngredient(2);
 
@@ -29,7 +33,9 @@ namespace TestIngredients
         [Fact]
         public void CanRemoveIngredientFromDictionary()
         {
-            Ingredient ingredient = new Ingredient("Apple", "Fruit", 0.75m);
+            App.Ingredients.Clear();
+
+            Ingredient ingredient = new Ingredient("Apple", IngredientType.Fruit, 0.75m);
 
             ingredient.AddIngredient(1);
 
@@ -37,13 +43,15 @@ namespace TestIngredients
 
             ingredient.RemoveIngredient(1);
 
-            Assert.True(App.Ingredients[ingredient] == 0);
+            Assert.False(App.Ingredients.ContainsKey(ingredient));
         }
 
         [Fact]
         public void CanRemoveMultipleIngredientFromDictionary()
         {
-            Ingredient ingredient = new Ingredient("Apple", "Fruit", 0.75m);
+            App.Ingredients.Clear();
+
+            Ingredient ingredient = new Ingredient("Apple", IngredientType.Fruit, 0.75m);
 
             ingredient.AddIngredient(2);
 
@@ -51,13 +59,15 @@ namespace TestIngredients
 
             ingredient.RemoveIngredient(2);
 
-            Assert.True(App.Ingredients[ingredient] == 0);
+            Assert.False(App.Ingredients.ContainsKey(ingredient));
         }
 
         [Fact]
         public void CheckIfOwnedWorks()
         {
-            Ingredient ingredient = new Ingredient("Apple", "Fruit", 0.75m);
+            App.Ingredients.Clear();
+
+            Ingredient ingredient = new Ingredient("Apple", IngredientType.Fruit, 0.75m);
 
             ingredient.AddIngredient(1);
 
@@ -67,7 +77,9 @@ namespace TestIngredients
         [Fact]
         public void CheckIfOwnedReturnsFalseAfterRemovingAllIngredients()
         {
-            Ingredient ingredient = new Ingredient("Apple", "Fruit", 0.75m);
+            App.Ingredients.Clear();
+
+            Ingredient ingredient = new Ingredient("Apple", IngredientType.Fruit, 0.75m);
 
             ingredient.AddIngredient(1);
 

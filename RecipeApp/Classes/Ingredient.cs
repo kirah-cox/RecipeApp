@@ -3,12 +3,12 @@
     public class Ingredient
     {
         public string Name { get; set; }
-        public string Type { get; set; }
+        public IngredientType Type { get; set; }
         public decimal Price { get; set; }
 
-        public Ingredient(string name, string type, decimal price)
+        public Ingredient(string name, IngredientType type, decimal price)
         {
-            Name = name;
+            Name = name.ToLower();
             Type = type;
             Price = price;
         }
@@ -21,7 +21,12 @@
             }
             else
             {
-                App.Ingredients[this] += amount;
+                var existingIngredient = App.Ingredients
+                    .FirstOrDefault(i =>
+                        i.Key.Name == this.Name &&
+                        i.Key.Type == this.Type &&
+                        i.Key.Price == this.Price);
+                App.Ingredients[existingIngredient.Key] += amount;
             }
         }
 
@@ -31,14 +36,43 @@
             {
                 App.Ingredients[this] -= amount;
             }
+
+            if (App.Ingredients[this] <= 0)
+            {
+                App.Ingredients.Remove(this);
+            }
         }
 
         public bool CheckIfOwned()
         {
-            if (App.Ingredients.ContainsKey(this) && App.Ingredients[this] != 0)
-            return true;
+            var existingIngredient = App.Ingredients
+            .FirstOrDefault(i =>
+                i.Key.Name == this.Name &&
+                i.Key.Type == this.Type &&
+                i.Key.Price == this.Price);
+
+            if (existingIngredient.Key != null)
+                return true;
             
             return false;
         }
+    }
+
+    public enum IngredientType
+    {
+        None,
+        Other,
+        Vegetable,
+        Fruit,
+        Grain,
+        Legume,
+        Dairy,
+        Egg,
+        Meat,
+        Seafood,
+        Poultry,
+        Sweetener,
+        Liquid,
+        Seasoning
     }
 }

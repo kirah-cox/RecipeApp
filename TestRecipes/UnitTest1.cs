@@ -11,8 +11,8 @@ namespace TestRecipes
             App.Recipes.Clear();
 
             Dictionary<Ingredient, int> ingredients = new Dictionary<Ingredient, int>();
-            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
-            ingredients.Add(new Ingredient("apple", "fruit", 0.70m), 3);
+            ingredients.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
+            ingredients.Add(new Ingredient("apple", IngredientType.Fruit, 0.70m), 3);
 
             Recipe recipe = new Recipe("pie", "Bake", ingredients);
 
@@ -27,12 +27,12 @@ namespace TestRecipes
             App.Recipes.Clear();
 
             Dictionary<Ingredient, int> ingredients = new Dictionary<Ingredient, int>();
-            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
-            ingredients.Add(new Ingredient("apple", "fruit", 0.70m), 3);
+            ingredients.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
+            ingredients.Add(new Ingredient("apple", IngredientType.Fruit, 0.70m), 3);
 
             Dictionary<Ingredient, int> ingredients2 = new Dictionary<Ingredient, int>();
-            ingredients2.Add(new Ingredient("flour", "grain", 3.00m), 2);
-            ingredients2.Add(new Ingredient("apple", "fruit", 0.70m), 3);
+            ingredients2.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
+            ingredients2.Add(new Ingredient("apple", IngredientType.Fruit, 0.70m), 3);
 
             Recipe recipe = new Recipe("pie", "Bake", ingredients);
             Recipe recipe2 = new Recipe("pie2", "Bake2", ingredients2);
@@ -49,8 +49,8 @@ namespace TestRecipes
             App.Recipes.Clear();
 
             Dictionary<Ingredient, int> ingredients = new Dictionary<Ingredient, int>();
-            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
-            ingredients.Add(new Ingredient("apple", "fruit", 0.70m), 3);
+            ingredients.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
+            ingredients.Add(new Ingredient("apple", IngredientType.Fruit, 0.70m), 3);
 
             Recipe recipe = new Recipe("pie", "Bake", ingredients);
 
@@ -69,12 +69,12 @@ namespace TestRecipes
             App.Recipes.Clear();
 
             Dictionary<Ingredient, int> ingredients = new Dictionary<Ingredient, int>();
-            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
-            ingredients.Add(new Ingredient("apple", "fruit", 0.70m), 3);
+            ingredients.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
+            ingredients.Add(new Ingredient("apple", IngredientType.Fruit, 0.70m), 3);
 
             Dictionary<Ingredient, int> ingredients2 = new Dictionary<Ingredient, int>();
-            ingredients2.Add(new Ingredient("flour", "grain", 3.00m), 2);
-            ingredients2.Add(new Ingredient("apple", "fruit", 0.70m), 3);
+            ingredients2.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
+            ingredients2.Add(new Ingredient("apple", IngredientType.Fruit, 0.70m), 3);
 
             Recipe recipe = new Recipe("pie", "Bake", ingredients);
             Recipe recipe2 = new Recipe("pie2", "Bake2", ingredients2);
@@ -96,8 +96,8 @@ namespace TestRecipes
             App.Recipes.Clear();
 
             Dictionary<Ingredient, int> ingredients = new Dictionary<Ingredient, int>();
-            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
-            ingredients.Add(new Ingredient("apple", "fruit", 0.70m), 3);
+            ingredients.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
+            ingredients.Add(new Ingredient("apple", IngredientType.Fruit, 0.70m), 3);
 
             Recipe recipe = new Recipe("pie", "Bake", ingredients);
 
@@ -112,8 +112,8 @@ namespace TestRecipes
             App.Recipes.Clear();
 
             Dictionary<Ingredient, int> ingredients = new Dictionary<Ingredient, int>();
-            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
-            ingredients.Add(new Ingredient("apple", "fruit", 0.70m), 3);
+            ingredients.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
+            ingredients.Add(new Ingredient("apple", IngredientType.Fruit, 0.70m), 3);
 
             Recipe recipe = new Recipe("pie", "Bake", ingredients);
 
@@ -129,12 +129,12 @@ namespace TestRecipes
             App.Recipes.Clear();
 
             Dictionary<Ingredient, int> ingredients = new Dictionary<Ingredient, int>();
-            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
-            ingredients.Add(new Ingredient("apple", "fruit", 0.70m), 3);
+            ingredients.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
+            ingredients.Add(new Ingredient("apple", IngredientType.Fruit, 0.70m), 3);
 
             Dictionary<Ingredient, int> ingredients2 = new Dictionary<Ingredient, int>();
-            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
-            ingredients.Add(new Ingredient("cherry", "fruit", 0.70m), 15);
+            ingredients2.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
+            ingredients2.Add(new Ingredient("cherry", IngredientType.Fruit, 0.70m), 15);
 
             Recipe recipe = new Recipe("pie", "Bake", ingredients);
 
@@ -154,17 +154,16 @@ namespace TestRecipes
             App.Recipes.Clear();
 
             Dictionary<Ingredient, int> ingredients = new Dictionary<Ingredient, int>();
-            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
-            ingredients.Add(new Ingredient("apple", "fruit", 0.70m), 3);
+            ingredients.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
+            ingredients.Add(new Ingredient("apple", IngredientType.Fruit, 0.70m), 3);
 
             Dictionary<Ingredient, int> ingredients2 = new Dictionary<Ingredient, int>();
-            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
-            ingredients.Add(new Ingredient("cherry", "fruit", 0.70m), 15);
+            ingredients2.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
+            ingredients2.Add(new Ingredient("cherry", IngredientType.Fruit, 0.70m), 15);
 
             Dictionary<Ingredient, int> ingredients3 = new Dictionary<Ingredient, int>();
-            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
-            ingredients.Add(new Ingredient("peach", "fruit", 0.70m), 4);
-
+            ingredients3.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
+            ingredients3.Add(new Ingredient("peach", IngredientType.Fruit, 0.70m), 4);
             Recipe recipe = new Recipe("pie", "Bake", ingredients);
 
             recipe.AddRecipe();
