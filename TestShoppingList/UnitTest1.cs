@@ -10,8 +10,8 @@ namespace TestShoppingList
             App.Recipes.Clear();
 
             Dictionary<Ingredient, int> ingredients = new Dictionary<Ingredient, int>();
-            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
-            ingredients.Add(new Ingredient("apple", "fruit", 0.70m), 3);
+            ingredients.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
+            ingredients.Add(new Ingredient("apple", IngredientType.Fruit, 0.70m), 3);
 
             Recipe recipe = new Recipe("pie", "Bake", ingredients);
 
@@ -30,13 +30,13 @@ namespace TestShoppingList
             App.Ingredients.Clear();
 
             Dictionary<Ingredient, int> ingredients = new Dictionary<Ingredient, int>();
-            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
-            ingredients.Add(new Ingredient("apple", "fruit", 0.70m), 3);
+            ingredients.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
+            ingredients.Add(new Ingredient("apple", IngredientType.Fruit, 0.70m), 3);
 
             Recipe recipe = new Recipe("pie", "Bake", ingredients);
             recipe.AddRecipe();
 
-            Ingredient ingredient = new Ingredient("flour", "grain", 3.00m);
+            Ingredient ingredient = new Ingredient("flour", IngredientType.Grain, 3.00m);
             ingredient.AddIngredient(2);
 
 
@@ -52,8 +52,8 @@ namespace TestShoppingList
             App.Recipes.Clear();
 
             Dictionary<Ingredient, int> ingredients = new Dictionary<Ingredient, int>();
-            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
-            ingredients.Add(new Ingredient("apple", "fruit", 0.70m), 3);
+            ingredients.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
+            ingredients.Add(new Ingredient("apple", IngredientType.Fruit, 0.70m), 3);
 
             Recipe recipe = new Recipe("pie", "Bake", ingredients);
 
@@ -76,7 +76,7 @@ namespace TestShoppingList
         {
             ShoppingList.CreateShoppingList();
 
-            Ingredient ingredient = new Ingredient("flour", "grain", 3.00m);
+            Ingredient ingredient = new Ingredient("flour", IngredientType.Grain, 3.00m);
 
             ShoppingList.AddToShoppingList(ingredient, 2);
 
@@ -90,7 +90,7 @@ namespace TestShoppingList
         {
             ShoppingList.CreateShoppingList();
 
-            Ingredient ingredient = new Ingredient("flour", "grain", 3.00m);
+            Ingredient ingredient = new Ingredient("flour", IngredientType.Grain, 3.00m);
 
             ShoppingList.AddToShoppingList(ingredient, 1);
 
@@ -108,7 +108,7 @@ namespace TestShoppingList
         {
             ShoppingList.CreateShoppingList();
 
-            Ingredient ingredient = new Ingredient("flour", "grain", 3.00m);
+            Ingredient ingredient = new Ingredient("flour", IngredientType.Grain, 3.00m);
 
             ShoppingList.AddToShoppingList(ingredient, 2);
 

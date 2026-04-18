@@ -8,7 +8,7 @@
 
         public Ingredient(string name, IngredientType type, decimal price)
         {
-            Name = name;
+            Name = name.ToLower();
             Type = type;
             Price = price;
         }
