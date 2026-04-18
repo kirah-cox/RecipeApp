@@ -79,7 +79,7 @@
 
 <h1>Ingredients</h1>
 
-<table>
+<table class="ingredients-table">
     <tr>
         <th>Name</th>
         <th>Type</th>
@@ -109,24 +109,24 @@
                 <td>@ingredient.Value</td>
             }
             <td>
-                <button @onclick="() => EditIngredientButton(ingredient.Key, ingredient.Value)">Edit</button>
-                <button @onclick="() => DeleteIngredientButton(ingredient.Key, ingredient.Value)">Delete</button>
+                <button class="action-ingredients-button" @onclick="() => EditIngredientButton(ingredient.Key, ingredient.Value)">Edit</button>
+                <button class="action-ingredients-button" @onclick="() => DeleteIngredientButton(ingredient.Key, ingredient.Value)">Delete</button>
             </td>
         </tr>
     }
 </table>
 
-<button @onclick="AddIngredientButton">Add Ingredient</button>
+<button class="add-ingredients-button" @onclick="AddIngredientButton">Add Ingredient</button>
 
 @if (DisplayAddIngredientModal)
 {
-    <form @onsubmit="SaveIngredient">
+    <form class="ingredients-form" @onsubmit="SaveIngredient">
         <label>Name:</label><br>
         <input type="text" @bind="IngredientName" maxlength="30" required pattern="^[A-Za-z\s]+$"
-            title="Only letters and spaces allowed."><br>
+            title="Only letters and spaces allowed." class="ingredients-form-input"><br>
 
         <label>Type:</label><br>
-            <select @bind="IngredientType" required>
+            <select @bind="IngredientType" required class="ingredients-form-input" style="padding: 0.4rem; padding-left: 0rem">
                 <option>@IngredientType.Vegetable</option>
                 <option>@IngredientType.Fruit</option>
                 <option>@IngredientType.Grain</option>
@@ -143,26 +143,27 @@
             </select><br>
 
         <label>Price:</label><br>
-        <input type="text" @bind="IngredientPrice" min="0.00" step="0.01" required><br>
+        <input type="text" @bind="IngredientPrice" min="0.00" step="0.01" required class="ingredients-form-input"><br>
 
         <label>Amount:</label><br>
-        <input type="number" @bind="IngredientAmount" min="1" required><br>
+        <input type="number" @bind="IngredientAmount" min="1" required class="ingredients-form-input"><br>
 
-        <button type="submit">Save</button>
+        <div class="ingredients-form-button-container">
+            <button class="action-ingredients-button" style="margin-right: 0rem; margin-left: 1rem" type="submit">Save</button>
+            <button class="action-ingredients-button" style="margin-right: 1rem" @onclick="() => DisplayAddIngredientModal = false">Cancel</button>
+        </div>
     </form>
-
-    <button @onclick="() => DisplayAddIngredientModal = false">Cancel</button>
 }
 
 @if (DisplayEditIngredientModal)
 {
-    <form @onsubmit="EditIngredient">
+    <form class="ingredients-form" @onsubmit="EditIngredient">
         <label>Name:</label><br>
             <input type="text" @bind="IngredientName" maxlength="30" required pattern="^[A-Za-z\s]+$"
-                title="Only letters and spaces allowed."><br>
+                title="Only letters and spaces allowed." class="ingredients-form-input"><br>
 
         <label>Type:</label><br>
-            <select @bind="IngredientType" required>
+            <select @bind="IngredientType" required class="ingredients-form-input" style="padding: 0.4rem; padding-left: 0rem">
                 <option>@IngredientType.Vegetable</option>
                 <option>@IngredientType.Fruit</option>
                 <option>@IngredientType.Grain</option>
@@ -179,13 +180,14 @@
             </select><br>
 
         <label>Price:</label><br>
-        <input type="text" @bind="IngredientPrice" min="0.00" step="0.01" required><br>
+        <input type="text" @bind="IngredientPrice" min="0.00" step="0.01" required class="ingredients-form-input"><br>
 
         <label>Amount:</label><br>
-        <input type="number" @bind="IngredientAmount" min="1" required><br>
+        <input type="number" @bind="IngredientAmount" min="1" required class="ingredients-form-input"><br>
 
-        <button type="submit">Save</button>
+        <div class="ingredients-form-button-container">
+            <button class="action-ingredients-button" style="margin-right: 0rem; margin-left: 1rem" type="submit">Save</button>
+            <button class="action-ingredients-button" style="margin-right: 1rem" @onclick="() => DisplayEditIngredientModal = false">Cancel</button>
+        </div>
     </form>
-
-    <button @onclick="() => DisplayEditIngredientModal = false">Cancel</button>
 }
