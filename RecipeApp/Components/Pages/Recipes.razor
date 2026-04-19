@@ -160,45 +160,37 @@
 
 @foreach(var recipe in Classes.App.Recipes)
 {
-    <div>
-        <h2>@recipe.Name</h2>
-        <h5>Ingredients:</h5>
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Price</th>
-                <th>Amount</th>
-            </tr>
+    <div class="recipe-card">
+        <h2 class="recipe-card-title">@recipe.Name</h2>
+        <div class="recipe-card-main-container">
+            <h5 style="font-weight: bold">Ingredients:</h5>
             @foreach (var ingredient in recipe.Ingredients)
             {
-                <tr>
-                    <td>@ingredient.Key.Name</td>
-                    <td>@ingredient.Key.Type</td>
-                    <td>@ingredient.Key.Price.ToString("$0.00")</td>
+                <div class="recipe-card-individual-ingredient-display-container">
+                    <p style="padding-left: 1rem; padding-right: 0.25rem">- @ingredient.Key.Name: </p>
                     @if (ingredient.Key.Type == IngredientType.Meat || ingredient.Key.Type == IngredientType.Seafood
                         || ingredient.Key.Type == IngredientType.Poultry || ingredient.Key.Type == IngredientType.Dairy
                         || ingredient.Key.Type == IngredientType.Liquid || ingredient.Key.Type == IngredientType.Grain
                         || ingredient.Key.Type == IngredientType.Legume || ingredient.Key.Type == IngredientType.Sweetener)
                     {
-                        <td>@ingredient.Value.ToString() oz</td>
+                        <p>@ingredient.Value.ToString() oz</p>
                     }
                     else if (ingredient.Key.Type == IngredientType.Seasoning)
                     {
-                        <td>@ingredient.Value.ToString() tsp</td>
+                        <p>@ingredient.Value.ToString() tsp</p>
                     }
                     else
                     {
-                        <td>@ingredient.Value</td>
+                        <p>@ingredient.Value</p>
                     }
-                </tr>
+                </div>
             }
-        </table>
-        <h5>Instructions:</h5>
-        <p>@recipe.Instructions</p>
+            <h5 style="font-weight: bold; margin-top: 1rem">Instructions:</h5>
+            <p>@recipe.Instructions</p>
 
-        <button class="action-button" @onclick="() => EditRecipeButton(recipe)">Edit</button>
-        <button class="action-button" @onclick="() => DeleteRecipeButton(recipe)">Delete</button>
+            <button class="action-button" @onclick="() => EditRecipeButton(recipe)">Edit</button>
+            <button class="action-button" @onclick="() => DeleteRecipeButton(recipe)">Delete</button>
+        </div>
     </div>
 }
 
@@ -206,14 +198,14 @@
 
 @if (DisplayAddRecipeModal)
 {
-    <form class="ingredients-form" @onsubmit="SaveRecipe">
+    <form class="recipe-form" @onsubmit="SaveRecipe">
         <label>Name:</label><br>
         <input type="text" @bind="RecipeName" maxlength="30" required pattern="^[A-Za-z\s]+$"
-            title="Only letters and spaces allowed."><br>
+            title="Only letters and spaces allowed." class="form-input"><br>
 
         <label>Ingredients:</label><br>
 
-        <table>
+        <table class="recipe-form-ingredients-table">
             <tr>
                 <th>Name</th>
                 <th>Type</th>
@@ -243,24 +235,24 @@
                         <td>@ingredient.Value</td>
                     }
                     <td>
-                        <button type="button" class="action-button" @onclick="() => EditIngredientButton(ingredient.Key, ingredient.Value)">Edit</button>
-                        <button type="button" class="action-button" @onclick="() => DeleteIngredientButton(ingredient.Key)">Delete</button>
+                        <button type="button" class="recipe-form-ingredients-table-buttons" @onclick="() => EditIngredientButton(ingredient.Key, ingredient.Value)">Edit</button>
+                        <button type="button" class="recipe-form-ingredients-table-buttons" @onclick="() => DeleteIngredientButton(ingredient.Key)">Delete</button>
                     </td>
                 </tr>
             }
         </table>
 
-        <button class="add-button" type="button" @onclick="AddIngredientButton">Add Ingredient</button>
+        <button class="add-button" type="button" @onclick="AddIngredientButton">Add Ingredient</button><br>
 
         @if(DisplayAddIngredientModal)
         {
-            <form @onsubmit="SaveIngredient">
+            <form style="background-color: #ddd; padding: 1rem; border-radius: 10px;" @onsubmit="SaveIngredient">
                 <label>Name:</label><br>
                 <input type="text" @bind="IngredientName" maxlength="30" required pattern="^[A-Za-z\s]+$"
-                    title="Only letters and spaces allowed."><br>
+                    title="Only letters and spaces allowed." class="form-input"><br>
 
                 <label>Type:</label><br>
-                    <select @bind="IngredientType" required>
+                    <select @bind="IngredientType" required class="form-input" style="padding: 0.4rem; padding-left: 0rem">
                         <option>@IngredientType.Vegetable</option>
                         <option>@IngredientType.Fruit</option>
                         <option>@IngredientType.Grain</option>
@@ -277,10 +269,10 @@
                     </select><br>
 
                 <label>Price:</label><br>
-                <input type="text" @bind="IngredientPrice" min="0.00" step="0.01" required><br>
+                <input type="text" @bind="IngredientPrice" min="0.00" step="0.01" required class="form-input"><br>
 
                 <label>Amount:</label><br>
-                <input type="number" @bind="IngredientAmount" min="1" required><br>
+                <input type="number" @bind="IngredientAmount" min="1" required class="form-input"><br>
 
                 <div class="ingredients-form-button-container">
                     <button class="action-button" style="margin-right: 0rem; margin-left: 1rem" type="submit">Save</button>
@@ -291,13 +283,13 @@
 
         @if (DisplayEditIngredientModal)
         {
-            <form @onsubmit="EditIngredient">
+            <form style="background-color: #ddd; padding: 1rem; border-radius: 10px;" @onsubmit="EditIngredient">
                 <label>Name:</label><br>
                     <input type="text" @bind="IngredientName" maxlength="30" required pattern="^[A-Za-z\s]+$"
-                        title="Only letters and spaces allowed."><br>
+                        title="Only letters and spaces allowed." class="form-input"><br>
 
                 <label>Type:</label><br>
-                    <select @bind="IngredientType" required>
+                    <select @bind="IngredientType" required class="form-input" style="padding: 0.4rem; padding-left: 0rem">
                         <option>@IngredientType.Vegetable</option>
                         <option>@IngredientType.Fruit</option>
                         <option>@IngredientType.Grain</option>
@@ -314,10 +306,10 @@
                     </select><br>
 
                 <label>Price:</label><br>
-                <input type="text" @bind="IngredientPrice" min="0.00" step="0.01" required><br>
+                <input type="text" @bind="IngredientPrice" min="0.00" step="0.01" required class="form-input"><br>
 
                 <label>Amount:</label><br>
-                <input type="number" @bind="IngredientAmount" min="1" required><br>
+                <input type="number" @bind="IngredientAmount" min="1" required class="form-input"><br>
 
                 <div class="ingredients-form-button-container">
                     <button class="action-button" style="margin-right: 0rem; margin-left: 1rem" type="submit">Save</button>
@@ -327,7 +319,7 @@
         }
 
         <label>Instructions:</label><br>
-        <input type="text" @bind="RecipeInstructions" required><br>
+        <input type="text" @bind="RecipeInstructions" required class="form-input"><br>
 
         <div class="ingredients-form-button-container">
             <button class="action-button" style="margin-right: 0rem; margin-left: 1rem" type="submit">Save</button>
@@ -338,14 +330,14 @@
 
 @if (DisplayEditRecipeModal)
 {
-    <form class="ingredients-form" @onsubmit="EditRecipe">
+    <form class="recipe-form" @onsubmit="EditRecipe">
         <label>Name:</label><br>
         <input type="text" @bind="RecipeName" maxlength="30" required pattern="^[A-Za-z\s]+$"
-            title="Only letters and spaces allowed."><br>
+            title="Only letters and spaces allowed." class="form-input"><br>
 
         <label>Ingredients:</label><br>
 
-        <table>
+        <table class="recipe-form-ingredients-table">
             <tr>
                 <th>Name</th>
                 <th>Type</th>
@@ -375,24 +367,24 @@
                         <td>@ingredient.Value</td>
                     }
                     <td>
-                        <button type="button" class="action-button" @onclick="() => EditIngredientButton(ingredient.Key, ingredient.Value)">Edit</button>
-                        <button type="button" class="action-button" @onclick="() => DeleteIngredientButton(ingredient.Key)">Delete</button>
+                        <button type="button" class="recipe-form-ingredients-table-buttons" @onclick="() => EditIngredientButton(ingredient.Key, ingredient.Value)">Edit</button>
+                        <button type="button" class="recipe-form-ingredients-table-buttons" @onclick="() => DeleteIngredientButton(ingredient.Key)">Delete</button>
                     </td>
                 </tr>
             }
         </table>
 
-        <button class="add-button" type="button" @onclick="AddIngredientButton">Add Ingredient</button>
+        <button class="add-button" type="button" @onclick="AddIngredientButton">Add Ingredient</button><br>
 
         @if(DisplayAddIngredientModal)
         {
-            <form @onsubmit="SaveIngredient">
+            <form style="background-color: #ddd; padding: 1rem; border-radius: 10px;" @onsubmit="SaveIngredient">
                 <label>Name:</label><br>
                 <input type="text" @bind="IngredientName" maxlength="30" required pattern="^[A-Za-z\s]+$"
-                    title="Only letters and spaces allowed."><br>
+                       title="Only letters and spaces allowed." class="form-input"><br>
 
                 <label>Type:</label><br>
-                    <select @bind="IngredientType" required>
+                    <select @bind="IngredientType" required class="form-input" style="padding: 0.4rem; padding-left: 0rem">
                         <option>@IngredientType.Vegetable</option>
                         <option>@IngredientType.Fruit</option>
                         <option>@IngredientType.Grain</option>
@@ -409,10 +401,10 @@
                     </select><br>
 
                 <label>Price:</label><br>
-                <input type="text" @bind="IngredientPrice" min="0.00" step="0.01" required><br>
+                <input type="text" @bind="IngredientPrice" min="0.00" step="0.01" required class="form-input"><br>
 
                 <label>Amount:</label><br>
-                <input type="number" @bind="IngredientAmount" min="1" required><br>
+                <input type="number" @bind="IngredientAmount" min="1" required class="form-input"><br>
 
                 <div class="ingredients-form-button-container">
                     <button class="action-button" style="margin-right: 0rem; margin-left: 1rem" type="submit">Save</button>
@@ -423,13 +415,13 @@
 
         @if (DisplayEditIngredientModal)
         {
-            <form @onsubmit="EditIngredient">
+            <form style="background-color: #ddd; padding: 1rem; border-radius: 10px;" @onsubmit="EditIngredient">
                 <label>Name:</label><br>
                     <input type="text" @bind="IngredientName" maxlength="30" required pattern="^[A-Za-z\s]+$"
-                        title="Only letters and spaces allowed."><br>
+                       title="Only letters and spaces allowed." class="form-input"><br>
 
                 <label>Type:</label><br>
-                    <select @bind="IngredientType" required>
+                    <select @bind="IngredientType" required class="form-input" style="padding: 0.4rem; padding-left: 0rem">
                         <option>@IngredientType.Vegetable</option>
                         <option>@IngredientType.Fruit</option>
                         <option>@IngredientType.Grain</option>
@@ -446,10 +438,10 @@
                     </select><br>
 
                 <label>Price:</label><br>
-                <input type="text" @bind="IngredientPrice" min="0.00" step="0.01" required><br>
+                <input type="text" @bind="IngredientPrice" min="0.00" step="0.01" required class="form-input"><br>
 
                 <label>Amount:</label><br>
-                <input type="number" @bind="IngredientAmount" min="1" required><br>
+                <input type="number" @bind="IngredientAmount" min="1" required class="form-input"><br>
 
                 <div class="ingredients-form-button-container">
                     <button class="action-button" style="margin-right: 0rem; margin-left: 1rem" type="submit">Save</button>
@@ -459,7 +451,7 @@
         }
 
         <label>Instructions:</label><br>
-        <input type="text" @bind="RecipeInstructions" required><br>
+        <input type="text" @bind="RecipeInstructions" required class="form-input"><br>
 
         <div class="ingredients-form-button-container">
             <button class="action-button" style="margin-right: 0rem; margin-left: 1rem" type="submit">Save</button>
