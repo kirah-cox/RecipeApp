@@ -109,14 +109,14 @@
                 <td>@ingredient.Value</td>
             }
             <td>
-                <button class="action-ingredients-button" @onclick="() => EditIngredientButton(ingredient.Key, ingredient.Value)">Edit</button>
-                <button class="action-ingredients-button" @onclick="() => DeleteIngredientButton(ingredient.Key, ingredient.Value)">Delete</button>
+                <button class="action-button" @onclick="() => EditIngredientButton(ingredient.Key, ingredient.Value)">Edit</button>
+                <button class="action-button" @onclick="() => DeleteIngredientButton(ingredient.Key, ingredient.Value)">Delete</button>
             </td>
         </tr>
     }
 </table>
 
-<button class="add-ingredients-button" @onclick="AddIngredientButton">Add Ingredient</button>
+<button class="add-button" @onclick="AddIngredientButton">Add Ingredient</button>
 
 @if (DisplayAddIngredientModal)
 {
@@ -149,8 +149,8 @@
         <input type="number" @bind="IngredientAmount" min="1" required class="ingredients-form-input"><br>
 
         <div class="ingredients-form-button-container">
-            <button class="action-ingredients-button" style="margin-right: 0rem; margin-left: 1rem" type="submit">Save</button>
-            <button class="action-ingredients-button" style="margin-right: 1rem" @onclick="() => DisplayAddIngredientModal = false">Cancel</button>
+            <button class="action-button" style="margin-right: 0rem; margin-left: 1rem" type="submit">Save</button>
+            <button class="action-button" style="margin-right: 1rem" @onclick="() => DisplayAddIngredientModal = false">Cancel</button>
         </div>
     </form>
 }
@@ -186,8 +186,8 @@
         <input type="number" @bind="IngredientAmount" min="1" required class="ingredients-form-input"><br>
 
         <div class="ingredients-form-button-container">
-            <button class="action-ingredients-button" style="margin-right: 0rem; margin-left: 1rem" type="submit">Save</button>
-            <button class="action-ingredients-button" style="margin-right: 1rem" @onclick="() => DisplayEditIngredientModal = false">Cancel</button>
+            <button class="action-button" style="margin-right: 0rem; margin-left: 1rem" type="submit">Save</button>
+            <button class="action-button" style="margin-right: 1rem" @onclick="() => DisplayEditIngredientModal = false">Cancel</button>
         </div>
     </form>
 }
