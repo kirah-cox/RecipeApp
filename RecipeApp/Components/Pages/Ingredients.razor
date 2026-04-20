@@ -1,0 +1,193 @@
+﻿@page "/ingredients"
+@rendermode InteractiveServer
+@using RecipeApp.Classes
+
+@code{
+    private bool DisplayAddIngredientModal = false;
+    private bool DisplayEditIngredientModal = false;
+    private string IngredientName;
+    private IngredientType IngredientType;
+    private decimal IngredientPrice = 0.00m;
+    private int IngredientAmount = 1;
+    private Ingredient? SelectedIngredient;
+    private int SelectedAmount;
+
+    private void AddIngredientButton()
+    {
+        DisplayAddIngredientModal = true;
+    }
+
+    private void EditIngredientButton(Ingredient ingredient, int amount)
+    {
+        SelectedIngredient = ingredient;
+        SelectedAmount = amount;
+
+        IngredientName = SelectedIngredient.Name;
+        IngredientType = SelectedIngredient.Type;
+        IngredientPrice = SelectedIngredient.Price;
+        IngredientAmount = SelectedAmount;
+        
+        DisplayEditIngredientModal = true;
+    }
+
+    private void DeleteIngredientButton(Ingredient ingredient, int amount)
+    {
+        ingredient.RemoveIngredient(amount);
+    }
+
+    private void SaveIngredient()
+    {
+        if(IngredientPrice < 0.00m)
+            IngredientPrice = 0.00m;
+        
+        Ingredient ingredient = new Ingredient(IngredientName, IngredientType, IngredientPrice);
+        ingredient.AddIngredient(IngredientAmount);
+
+        IngredientName = string.Empty;
+        IngredientType = IngredientType.None;
+        IngredientPrice = 0.00m;
+        IngredientAmount = 1;
+
+        DisplayAddIngredientModal = false;
+        DisplayEditIngredientModal = false;
+    }
+
+    private void EditIngredient()
+    {
+        if (IngredientPrice < 0.00m)
+            IngredientPrice = 0.00m;
+        
+        if (SelectedIngredient != null)
+        {
+            SelectedIngredient.Name = IngredientName;
+            SelectedIngredient.Type = IngredientType;
+            SelectedIngredient.Price = IngredientPrice;
+            SelectedIngredient.AddIngredient(IngredientAmount - SelectedAmount);
+        }
+
+        IngredientName = string.Empty;
+        IngredientType = IngredientType.None;
+        IngredientPrice = 0.00m;
+        IngredientAmount = 1;
+
+        DisplayAddIngredientModal = false;
+        DisplayEditIngredientModal = false;
+    }
+}
+
+<PageTitle>Ingredients</PageTitle>
+
+<h1>Ingredients</h1>
+
+<table class="ingredients-table">
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Price</th>
+        <th>Amount</th>
+        <th>Action</th>
+    </tr>
+    @foreach (var ingredient in Classes.App.Ingredients)
+    {
+        <tr>
+            <td>@ingredient.Key.Name</td>
+            <td>@ingredient.Key.Type</td>
+            <td>@ingredient.Key.Price.ToString("$0.00")</td>
+            @if (ingredient.Key.Type == IngredientType.Meat || ingredient.Key.Type == IngredientType.Seafood
+                || ingredient.Key.Type == IngredientType.Poultry || ingredient.Key.Type == IngredientType.Dairy
+                || ingredient.Key.Type == IngredientType.Liquid || ingredient.Key.Type == IngredientType.Grain
+                || ingredient.Key.Type == IngredientType.Legume || ingredient.Key.Type == IngredientType.Sweetener)
+            {
+                <td>@ingredient.Value.ToString() oz</td>
+            }
+            else if (ingredient.Key.Type == IngredientType.Seasoning)
+            {
+                <td>@ingredient.Value.ToString() tsp</td>
+            }
+            else
+            {
+                <td>@ingredient.Value</td>
+            }
+            <td>
+                <button class="action-button" @onclick="() => EditIngredientButton(ingredient.Key, ingredient.Value)">Edit</button>
+                <button class="action-button" @onclick="() => DeleteIngredientButton(ingredient.Key, ingredient.Value)">Delete</button>
+            </td>
+        </tr>
+    }
+</table>
+
+<button class="add-button" @onclick="AddIngredientButton">Add Ingredient</button>
+
+@if (DisplayAddIngredientModal)
+{
+    <form class="ingredients-form" @onsubmit="SaveIngredient">
+        <label>Name:</label><br>
+        <input type="text" @bind="IngredientName" maxlength="30" required pattern="^[A-Za-z\s]+$"
+            title="Only letters and spaces allowed." class="form-input"><br>
+
+        <label>Type:</label><br>
+            <select @bind="IngredientType" required class="form-input" style="padding: 0.4rem; padding-left: 0rem">
+                <option>@IngredientType.Vegetable</option>
+                <option>@IngredientType.Fruit</option>
+                <option>@IngredientType.Grain</option>
+                <option>@IngredientType.Legume</option>
+                <option>@IngredientType.Dairy</option>
+                <option>@IngredientType.Egg</option>
+                <option>@IngredientType.Meat</option>
+                <option>@IngredientType.Seafood</option>
+                <option>@IngredientType.Poultry</option>
+                <option>@IngredientType.Sweetener</option>
+                <option>@IngredientType.Liquid</option>
+                <option>@IngredientType.Seasoning</option>
+                <option>@IngredientType.Other</option>
+            </select><br>
+
+        <label>Price:</label><br>
+        <input type="text" @bind="IngredientPrice" min="0.00" step="0.01" required class="form-input"><br>
+
+        <label>Amount:</label><br>
+        <input type="number" @bind="IngredientAmount" min="1" required class="form-input"><br>
+
+        <div class="ingredients-form-button-container">
+            <button class="action-button" style="margin-right: 0rem; margin-left: 1rem" type="submit">Save</button>
+            <button class="action-button" style="margin-right: 1rem" @onclick="() => DisplayAddIngredientModal = false">Cancel</button>
+        </div>
+    </form>
+}
+
+@if (DisplayEditIngredientModal)
+{
+    <form class="ingredients-form" @onsubmit="EditIngredient">
+        <label>Name:</label><br>
+            <input type="text" @bind="IngredientName" maxlength="30" required pattern="^[A-Za-z\s]+$"
+                title="Only letters and spaces allowed." class="form-input"><br>
+
+        <label>Type:</label><br>
+            <select @bind="IngredientType" required class="form-input" style="padding: 0.4rem; padding-left: 0rem">
+                <option>@IngredientType.Vegetable</option>
+                <option>@IngredientType.Fruit</option>
+                <option>@IngredientType.Grain</option>
+                <option>@IngredientType.Legume</option>
+                <option>@IngredientType.Dairy</option>
+                <option>@IngredientType.Egg</option>
+                <option>@IngredientType.Meat</option>
+                <option>@IngredientType.Seafood</option>
+                <option>@IngredientType.Poultry</option>
+                <option>@IngredientType.Sweetener</option>
+                <option>@IngredientType.Liquid</option>
+                <option>@IngredientType.Seasoning</option>
+                <option>@IngredientType.Other</option>
+            </select><br>
+
+        <label>Price:</label><br>
+        <input type="text" @bind="IngredientPrice" min="0.00" step="0.01" required class="form-input"><br>
+
+        <label>Amount:</label><br>
+        <input type="number" @bind="IngredientAmount" min="1" required class="form-input"><br>
+
+        <div class="ingredients-form-button-container">
+            <button class="action-button" style="margin-right: 0rem; margin-left: 1rem" type="submit">Save</button>
+            <button class="action-button" style="margin-right: 1rem" @onclick="() => DisplayEditIngredientModal = false">Cancel</button>
+        </div>
+    </form>
+}
