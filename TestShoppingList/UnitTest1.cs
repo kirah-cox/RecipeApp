@@ -13,7 +13,7 @@ namespace TestShoppingList
             ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
             ingredients.Add(new Ingredient("apple", "fruit", 0.70m), 3);
 
-            Recipe recipe = new Recipe("pie", "Bake", ingredients);
+            Recipe recipe = new Recipe("pie", "Bake", "Desert", ingredients);
 
             recipe.AddRecipe();
 
@@ -33,7 +33,7 @@ namespace TestShoppingList
             ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
             ingredients.Add(new Ingredient("apple", "fruit", 0.70m), 3);
 
-            Recipe recipe = new Recipe("pie", "Bake", ingredients);
+            Recipe recipe = new Recipe("pie", "Bake", "Desert", ingredients);
             recipe.AddRecipe();
 
             Ingredient ingredient = new Ingredient("flour", "grain", 3.00m);
@@ -55,7 +55,7 @@ namespace TestShoppingList
             ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
             ingredients.Add(new Ingredient("apple", "fruit", 0.70m), 3);
 
-            Recipe recipe = new Recipe("pie", "Bake", ingredients);
+            Recipe recipe = new Recipe("pie", "Bake", "Desert", ingredients);
 
             recipe.AddRecipe();
 

@@ -34,22 +34,15 @@
             this.Instructions = newInstructions;
             this.Ingredients = newIngredients;
         }
-        public static Dictionary<Recipe, int> SuggestRecipeBasedOnIngredients()
+        public static Dictionary<Recipe, int> SuggestRecipeBasedOnIngredientsOwned()
         {
-            Dictionary<Recipe, int> allRecipes = new Dictionary<Recipe, int>();
-            foreach (Recipe recipe in App.Recipes)
-            {
-                allRecipes.Add(recipe, 0);
-                foreach(var ingredient in App.Ingredients)
-                {
-                    if(recipe.Ingredients.Contains(ingredient))
-                    {
-                        allRecipes[recipe] += 1;
-                    }
-                }
-            }
-            allRecipes.OrderBy(x => x.Value);
-            return allRecipes;
+            return App.Recipes
+                .ToDictionary(
+                    recipe => recipe,
+                    recipe => recipe.Ingredients.Count(i => App.Ingredients.Contains(i))
+                )
+                .OrderByDescending(x => x.Value)
+                .ToDictionary(x => x.Key, x => x.Value);
         }
         public static List<Recipe> SuggestRecipeBasedOnGenre(string genre)
         {
