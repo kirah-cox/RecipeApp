@@ -14,7 +14,7 @@ namespace TestRecipes
             ingredients.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
             ingredients.Add(new Ingredient("apple", IngredientType.Fruit, 0.70m), 3);
 
-            Recipe recipe = new Recipe("pie", "Bake", ingredients);
+            Recipe recipe = new Recipe("pie", "Bake", "Desert", ingredients);
 
             recipe.AddRecipe();
 
@@ -34,8 +34,8 @@ namespace TestRecipes
             ingredients2.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
             ingredients2.Add(new Ingredient("apple", IngredientType.Fruit, 0.70m), 3);
 
-            Recipe recipe = new Recipe("pie", "Bake", ingredients);
-            Recipe recipe2 = new Recipe("pie2", "Bake2", ingredients2);
+            Recipe recipe = new Recipe("pie", "Bake", "Desert", ingredients);
+            Recipe recipe2 = new Recipe("pie2", "Bake2", "Desert", ingredients2);
 
             recipe.AddRecipe();
             recipe2.AddRecipe();
@@ -52,7 +52,7 @@ namespace TestRecipes
             ingredients.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
             ingredients.Add(new Ingredient("apple", IngredientType.Fruit, 0.70m), 3);
 
-            Recipe recipe = new Recipe("pie", "Bake", ingredients);
+            Recipe recipe = new Recipe("pie", "Bake", "Desert", ingredients);
 
             recipe.AddRecipe();
 
@@ -76,8 +76,8 @@ namespace TestRecipes
             ingredients2.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
             ingredients2.Add(new Ingredient("apple", IngredientType.Fruit, 0.70m), 3);
 
-            Recipe recipe = new Recipe("pie", "Bake", ingredients);
-            Recipe recipe2 = new Recipe("pie2", "Bake2", ingredients2);
+            Recipe recipe = new Recipe("pie", "Bake", "Desert", ingredients);
+            Recipe recipe2 = new Recipe("pie2", "Bake2", "Desert", ingredients2);
 
             recipe.AddRecipe();
             recipe2.AddRecipe();
@@ -99,7 +99,7 @@ namespace TestRecipes
             ingredients.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
             ingredients.Add(new Ingredient("apple", IngredientType.Fruit, 0.70m), 3);
 
-            Recipe recipe = new Recipe("pie", "Bake", ingredients);
+            Recipe recipe = new Recipe("pie", "Bake", "Desert", ingredients);
 
             recipe.AddRecipe();
 
@@ -115,7 +115,7 @@ namespace TestRecipes
             ingredients.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
             ingredients.Add(new Ingredient("apple", IngredientType.Fruit, 0.70m), 3);
 
-            Recipe recipe = new Recipe("pie", "Bake", ingredients);
+            Recipe recipe = new Recipe("pie", "Bake", "Desert", ingredients);
 
             recipe.AddRecipe();
             recipe.RemoveRecipe();
@@ -136,7 +136,7 @@ namespace TestRecipes
             ingredients2.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
             ingredients2.Add(new Ingredient("cherry", IngredientType.Fruit, 0.70m), 15);
 
-            Recipe recipe = new Recipe("pie", "Bake", ingredients);
+            Recipe recipe = new Recipe("pie", "Bake", "Desert", ingredients);
 
             recipe.AddRecipe();
 
@@ -162,9 +162,10 @@ namespace TestRecipes
             ingredients2.Add(new Ingredient("cherry", IngredientType.Fruit, 0.70m), 15);
 
             Dictionary<Ingredient, int> ingredients3 = new Dictionary<Ingredient, int>();
-            ingredients3.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
-            ingredients3.Add(new Ingredient("peach", IngredientType.Fruit, 0.70m), 4);
-            Recipe recipe = new Recipe("pie", "Bake", ingredients);
+            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
+            ingredients.Add(new Ingredient("peach", "fruit", 0.70m), 4);
+
+            Recipe recipe = new Recipe("pie", "Bake", "Desert", ingredients);
 
             recipe.AddRecipe();
 
@@ -175,6 +176,56 @@ namespace TestRecipes
 
 
             Assert.True(recipe.Name == "pie" && recipe.Instructions == "Make");
+        }
+        [Fact]
+        public void SuggestRecipeBasedOnIngredientsOwned()
+        {
+            App.Recipes.Clear();
+            Dictionary<Ingredient, int> ingredients = new Dictionary<Ingredient, int>();
+            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
+            ingredients.Add(new Ingredient("apple", "fruit", 0.70m), 3);
+
+            Dictionary<Ingredient, int> ingredients2 = new Dictionary<Ingredient, int>();
+            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
+            ingredients2.Add(new Ingredient("peporoni", "meat", 0.70m), 3);
+
+            Recipe recipe = new Recipe("pie", "Bake", "Desert", ingredients);
+            Recipe recipe2 = new Recipe("pizza", "Bake2", "Desert", ingredients2);
+            recipe2.AddRecipe();
+            recipe.AddRecipe();
+            
+            App.Ingredients.Clear();
+            App.Ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
+
+            var suggestedList = Recipe.SuggestRecipeBasedOnIngredientsOwned();
+
+            Assert.Contains(suggestedList.First().Key, new[] { recipe, recipe2 });
+
+        }
+        [Fact]
+        public void SuggestRecipeBasedOnGenre()
+        {
+            App.Recipes.Clear();
+            Dictionary<Ingredient, int> ingredients = new Dictionary<Ingredient, int>();
+            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
+            ingredients.Add(new Ingredient("apple", "fruit", 0.70m), 3);
+
+            Dictionary<Ingredient, int> ingredients2 = new Dictionary<Ingredient, int>();
+            ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
+            ingredients2.Add(new Ingredient("peporoni", "meat", 0.70m), 3);
+
+            Recipe recipe = new Recipe("pie", "Bake", "Desert", ingredients);
+            Recipe recipe2 = new Recipe("pizza", "Bake2", "Dinner", ingredients2);
+            recipe2.AddRecipe();
+            recipe.AddRecipe();
+
+            App.Ingredients.Clear();
+            App.Ingredients.Add(new Ingredient("flour", "grain", 3.00m), 2);
+
+            var suggestedList = Recipe.SuggestRecipeBasedOnGenre("Desert");
+
+            Assert.Equal(suggestedList.Count, 1);
+
         }
     }
 }
