@@ -9,6 +9,7 @@
     private bool DisplayEditIngredientModal = false;
     private string RecipeName;
     private string RecipeInstructions;
+    private RecipeGenre RecipeGenre;
     private Dictionary<Ingredient, int> RecipeIngredients = new Dictionary<Ingredient, int>();
     private string IngredientName;
     private IngredientType IngredientType;
@@ -125,7 +126,7 @@
 
     private void SaveRecipe()
     {
-        Recipe recipe = new Recipe(RecipeName, RecipeInstructions, RecipeIngredients);
+        Recipe recipe = new Recipe(RecipeName, RecipeInstructions, RecipeGenre, RecipeIngredients);
         recipe.AddRecipe();
 
         RecipeName = RecipeInstructions = string.Empty;

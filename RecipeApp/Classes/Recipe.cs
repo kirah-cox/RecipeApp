@@ -4,9 +4,9 @@
     {
         public string Name { get; set; }
         public string Instructions { get; set; }
-        public string Genre { get; set; }
+        public RecipeGenre Genre { get; set; }
         public Dictionary<Ingredient, int> Ingredients { get; set; }
-        public Recipe(string name, string instructions, string genre, Dictionary<Ingredient, int> ingredients) 
+        public Recipe(string name, string instructions, RecipeGenre genre, Dictionary<Ingredient, int> ingredients) 
         {
             Name = name;
             Instructions = instructions;
@@ -44,7 +44,7 @@
                 .OrderByDescending(x => x.Value)
                 .ToDictionary(x => x.Key, x => x.Value);
         }
-        public static List<Recipe> SuggestRecipeBasedOnGenre(string genre)
+        public static List<Recipe> SuggestRecipeBasedOnGenre(RecipeGenre genre)
         {
             List<Recipe> sortedRecipes = new List<Recipe>();
             foreach (Recipe recipe in App.Recipes)
@@ -56,5 +56,14 @@
             }
             return sortedRecipes;
         }
+    }
+
+    public enum RecipeGenre
+    {
+        None,
+        Breakfast,
+        Lunch,
+        Dinner,
+        Dessert
     }
 }
