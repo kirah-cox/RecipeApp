@@ -1,6 +1,48 @@
 ﻿@page "/shoppingList"
 @rendermode InteractiveServer
+@using RecipeApp.Classes
+
+@code {
+    protected override void OnInitialized()
+    {
+        Classes.ShoppingList.CreateShoppingList();
+    }
+}
 
 <PageTitle>Shopping List</PageTitle>
 
 <h1>Shopping List</h1>
+
+<table class="ingredients-table">
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Price</th>
+        <th>Amount</th>
+    </tr>
+    @foreach (var ingredient in Classes.ShoppingList.Ingredients)
+    {
+        <tr>
+            <td>@ingredient.Key.Name</td>
+            <td>@ingredient.Key.Type</td>
+            <td>@ingredient.Key.Price.ToString("$0.00")</td>
+            @if (ingredient.Key.Type == IngredientType.Meat || ingredient.Key.Type == IngredientType.Seafood
+                    || ingredient.Key.Type == IngredientType.Poultry || ingredient.Key.Type == IngredientType.Dairy
+                    || ingredient.Key.Type == IngredientType.Liquid || ingredient.Key.Type == IngredientType.Grain
+                    || ingredient.Key.Type == IngredientType.Legume || ingredient.Key.Type == IngredientType.Sweetener)
+            {
+                <td>@ingredient.Value.ToString() oz</td>
+            }
+            else if (ingredient.Key.Type == IngredientType.Seasoning)
+            {
+                <td>@ingredient.Value.ToString() tsp</td>
+            }
+            else
+            {
+                <td>@ingredient.Value</td>
+            }
+        </tr>
+    }
+</table>
+
+<h5 style="margin-top: 1rem;">Total Price: @Classes.ShoppingList.TotalPrice.ToString("$0.00")</h5>
