@@ -1,4 +1,6 @@
-﻿namespace RecipeApp.Classes
+﻿using RecipeApp.Components.Pages;
+
+namespace RecipeApp.Classes
 {
     public static class ShoppingList
     {
@@ -52,7 +54,7 @@
 
         private static void CheckIfUserHasIngredient(Recipe recipe, KeyValuePair<Ingredient, int> ingredient)
         {
-            if (App.Ingredients.ContainsKey(ingredient.Key) && App.Ingredients[ingredient.Key] > 0)
+            if (ingredient.Key.CheckIfOwned())
             {
                 UserHasIngredient(recipe, ingredient);
             }
@@ -64,15 +66,33 @@
 
         private static void UserHasIngredient(Recipe recipe, KeyValuePair<Ingredient, int> ingredient)
         {
-            if (recipe.Ingredients[ingredient.Key] > App.Ingredients[ingredient.Key])
+            var existingIngredient = App.Ingredients
+                .FirstOrDefault(i =>
+                    i.Key.Name == ingredient.Key.Name &&
+                    i.Key.Type == ingredient.Key.Type &&
+                    i.Key.Price == ingredient.Key.Price);
+
+            var existingIngredientRecipe = recipe.Ingredients
+                .FirstOrDefault(i =>
+                    i.Key.Name == ingredient.Key.Name &&
+                    i.Key.Type == ingredient.Key.Type &&
+                    i.Key.Price == ingredient.Key.Price);
+
+            if (recipe.Ingredients[existingIngredientRecipe.Key] > App.Ingredients[existingIngredient.Key])
             {
-                int neededAmount = recipe.Ingredients[ingredient.Key] - App.Ingredients[ingredient.Key];
+                int neededAmount = recipe.Ingredients[existingIngredientRecipe.Key] - App.Ingredients[existingIngredient.Key];
 
                 for (int i = 0; i < neededAmount; i++)
                 {
-                    if (Ingredients.ContainsKey(ingredient.Key))
+                    var existingIngredientShoppingList = Ingredients
+                        .FirstOrDefault(i =>
+                            i.Key.Name == ingredient.Key.Name &&
+                            i.Key.Type == ingredient.Key.Type &&
+                            i.Key.Price == ingredient.Key.Price);
+
+                    if (existingIngredientShoppingList.Key != null)
                     {
-                        Ingredients[ingredient.Key]++;
+                        Ingredients[existingIngredientShoppingList.Key]++;
                     }
                     else
                     {
@@ -85,9 +105,15 @@
 
         private static void UserDoesNotHaveIngredient(KeyValuePair<Ingredient, int> ingredient)
         {
-            if (Ingredients.ContainsKey(ingredient.Key))
+            var existingIngredientShoppingList = Ingredients
+                .FirstOrDefault(i =>
+                    i.Key.Name == ingredient.Key.Name &&
+                    i.Key.Type == ingredient.Key.Type &&
+                    i.Key.Price == ingredient.Key.Price);
+
+            if (existingIngredientShoppingList.Key != null)
             {
-                Ingredients[ingredient.Key] += ingredient.Value;
+                Ingredients[existingIngredientShoppingList.Key] += ingredient.Value;
             }
             else
             {
