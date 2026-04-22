@@ -1,10 +1,77 @@
-﻿@namespace RecipeApp
+﻿@using RecipeApp.Classes
 @page "/"
 
-<PageTitle>Home</PageTitle>
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Recipe Finder</h2>
 
-<h1>Hello, world!</h1>
+    <div class="d-flex justify-content-center gap-3 mb-5">
+        <button class="btn btn-success btn-lg" @onclick="SuggestRecipe">
+            <i class="bi bi-lightbulb"></i> Suggest Recipe
+        </button>
 
-Welcome to your new app.
+        <div class="dropdown">
+            <button class="btn btn-outline-primary btn-lg dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                @selectedCategory
+            </button>
+            <ul class="dropdown-menu">
+                @foreach (var genre in Enum.GetValues<RecipeGenre>())
+                {
+                    <li>
+                        <button class="dropdown-item" type="button" @onclick="() => FilterByGenre(genre)">
+                            @genre
+                        </button>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
 
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            @if (activeRecipes.Count > 0)
+            {
+                <h5 class="text-muted mb-3">Showing: <strong>@currentView</strong></h5>
+                <div class="list-group shadow">
+                    @foreach (var recipe in activeRecipes)
+                    {
+                        <div class="list-group-item list-group-item-action border-start border-primary border-4">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1 fw-bold">@recipe.Name</h6>
+                                <small class="text-muted">@recipe.Genre</small>
+                            </div>
+                            <p class="mb-1 small">@recipe.Instructions</p>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
 
+@code {
+    private List<Recipe> activeRecipes = new();
+    private string selectedCategory = "Select Genre";
+    private string currentView = "";
+
+    private void SuggestRecipe()
+    {
+        var suggestion = Recipe.SuggestRecipeBasedOnIngredientsOwned();
+        // Assuming suggestion.Keys contains the Recipe objects
+        activeRecipes = suggestion.Keys.ToList();
+        currentView = "Random Suggestion";
+        selectedCategory = "Select Genre";
+    }
+
+    private void FilterByGenre(RecipeGenre genre)
+    {
+        selectedCategory = genre.ToString();
+        currentView = genre.ToString();
+
+        // IMPORTANT: Update activeRecipes so the UI re-renders with the filtered list
+        // Assuming your method looks something like this:
+        activeRecipes = Recipe.SuggestRecipeBasedOnGenre(genre);
+    }
+}

@@ -36,6 +36,8 @@
         }
         public static Dictionary<Recipe, int> SuggestRecipeBasedOnIngredientsOwned()
         {
+            if (App.Recipes == null)
+                return new Dictionary<Recipe, int>();
             return App.Recipes
                 .ToDictionary(
                     recipe => recipe,
