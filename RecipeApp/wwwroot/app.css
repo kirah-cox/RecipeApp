@@ -239,3 +239,22 @@ h1:focus {
     display: flex;
     height: 1.25rem;
 }
+
+
+
+
+
+
+
+
+.suggest-recipes-main-container {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 15px;
+    width: 35rem;
+}
+
+.suggest-recipes-button-container {
+    display: flex;
+    justify-content: space-between;
+}
