@@ -131,6 +131,7 @@
 
         RecipeName = RecipeInstructions = string.Empty;
         RecipeIngredients = new Dictionary<Ingredient, int>();
+        RecipeGenre = RecipeGenre.None;
 
         DisplayAddRecipeModal = false;
         DisplayEditRecipeModal = false;
@@ -147,6 +148,7 @@
 
         RecipeName = RecipeInstructions = string.Empty;
         RecipeIngredients = new Dictionary<Ingredient, int>();
+        RecipeGenre = RecipeGenre.None;
 
         DisplayAddRecipeModal = false;
         DisplayEditRecipeModal = false;
@@ -164,6 +166,8 @@
     <div class="recipe-card">
         <h2 class="recipe-card-title">@recipe.Name</h2>
         <div class="recipe-card-main-container">
+            <h5 style="font-weight: bold">Genre:</h5>
+            <p>@recipe.Genre.ToString()</p>
             <h5 style="font-weight: bold">Ingredients:</h5>
             @foreach (var ingredient in recipe.Ingredients)
             {
@@ -319,6 +323,14 @@
             </form>
         }
 
+        <label>Genre:</label><br>
+        <select @bind="RecipeGenre" required class="form-input" style="padding: 0.4rem; padding-left: 0rem">
+            <option>@RecipeGenre.Breakfast</option>
+            <option>@RecipeGenre.Lunch</option>
+            <option>@RecipeGenre.Dinner</option>
+            <option>@RecipeGenre.Dessert</option>
+        </select><br>
+
         <label>Instructions:</label><br>
         <input type="text" @bind="RecipeInstructions" required class="form-input"><br>
 
@@ -450,6 +462,14 @@
                 </div>
             </form>
         }
+
+        <label>Genre:</label><br>
+        <select @bind="RecipeGenre" required class="form-input" style="padding: 0.4rem; padding-left: 0rem">
+            <option>@RecipeGenre.Breakfast</option>
+            <option>@RecipeGenre.Lunch</option>
+            <option>@RecipeGenre.Dinner</option>
+            <option>@RecipeGenre.Dessert</option>
+        </select><br>
 
         <label>Instructions:</label><br>
         <input type="text" @bind="RecipeInstructions" required class="form-input"><br>

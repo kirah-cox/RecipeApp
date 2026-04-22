@@ -1,11 +1,56 @@
 ﻿@using RecipeApp.Classes
+@rendermode InteractiveServer
 @page "/"
 
+@code {
+    private List<Recipe> activeRecipes = new();
+    private string selectedCategory = "Select Genre";
+    private string currentView = "";
+    private bool ShowRecipeModal = false;
+    private RecipeGenre RecipeGenre;
+
+    private void SuggestRecipe()
+    {
+        var suggestion = Recipe.SuggestRecipeBasedOnIngredientsOwned();
+        activeRecipes = suggestion.Keys.ToList();
+        currentView = "Random Suggestion";
+        selectedCategory = "Select Genre";
+        ShowRecipeModal = true;
+    }
+
+    private void FilterByGenre(RecipeGenre genre)
+    {
+        // selectedCategory = genre.ToString();
+        // currentView = genre.ToString();
+
+        // IMPORTANT: Update activeRecipes so the UI re-renders with the filtered list
+        // Assuming your method looks something like this:
+        activeRecipes = Recipe.SuggestRecipeBasedOnGenre(RecipeGenre);
+    }
+}
+
+<h2>Recipe Finder</h2>
+
+<button class="add-button" @onclick="SuggestRecipe">=Suggest Recipe</button>
+
+<form>
+    <label>Genre:</label><br>
+    <select @bind="RecipeGenre">
+        <option>@RecipeGenre.Breakfast</option>
+        <option>@RecipeGenre.Lunch</option>
+        <option>@RecipeGenre.Dinner</option>
+        <option>@RecipeGenre.Dessert</option>
+    </select><br>
+</form>
+
+
+
+
 <div class="container mt-5">
-    <h2 class="mb-4 text-center">Recipe Finder</h2>
+    @* <h2 class="mb-4 text-center">Recipe Finder</h2> *@
 
     <div class="d-flex justify-content-center gap-3 mb-5">
-        <button class="btn btn-success btn-lg" @onclick="SuggestRecipe">
+@*         <button class="btn btn-success btn-lg" @onclick="SuggestRecipe">
             <i class="bi bi-lightbulb"></i> Suggest Recipe
         </button>
 
@@ -26,52 +71,46 @@
                     </li>
                 }
             </ul>
-        </div>
+        </div> *@
     </div>
 
     <div class="row justify-content-center">
         <div class="col-md-6">
-            @if (activeRecipes.Count > 0)
+            @if (activeRecipes.Count > 0 && ShowRecipeModal)
             {
-                <h5 class="text-muted mb-3">Showing: <strong>@currentView</strong></h5>
-                <div class="list-group shadow">
-                    @foreach (var recipe in activeRecipes)
-                    {
-                        <div class="list-group-item list-group-item-action border-start border-primary border-4">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h6 class="mb-1 fw-bold">@recipe.Name</h6>
-                                <small class="text-muted">@recipe.Genre</small>
-                            </div>
-                            <p class="mb-1 small">@recipe.Instructions</p>
+                @foreach (var recipe in activeRecipes)
+                {
+                    <div class="recipe-card">
+                        <h2 class="recipe-card-title">@recipe.Name</h2>
+                        <div class="recipe-card-main-container">
+                            <h5 style="font-weight: bold">Ingredients:</h5>
+                            @foreach (var ingredient in recipe.Ingredients)
+                            {
+                                <div class="recipe-card-individual-ingredient-display-container">
+                                    <p style="padding-left: 1rem; padding-right: 0.25rem">- @ingredient.Key.Name: </p>
+                                    @if (ingredient.Key.Type == IngredientType.Meat || ingredient.Key.Type == IngredientType.Seafood
+                                        || ingredient.Key.Type == IngredientType.Poultry || ingredient.Key.Type == IngredientType.Dairy
+                                        || ingredient.Key.Type == IngredientType.Liquid || ingredient.Key.Type == IngredientType.Grain
+                                        || ingredient.Key.Type == IngredientType.Legume || ingredient.Key.Type == IngredientType.Sweetener)
+                                    {
+                                        <p>@ingredient.Value.ToString() oz</p>
+                                    }
+                                    else if (ingredient.Key.Type == IngredientType.Seasoning)
+                                    {
+                                        <p>@ingredient.Value.ToString() tsp</p>
+                                    }
+                                    else
+                                    {
+                                        <p>@ingredient.Value</p>
+                                    }
+                                </div>
+                            }
+                            <h5 style="font-weight: bold; margin-top: 1rem">Instructions:</h5>
+                            <p>@recipe.Instructions</p>
                         </div>
-                    }
-                </div>
+                    </div>
+                }
             }
         </div>
     </div>
 </div>
-
-@code {
-    private List<Recipe> activeRecipes = new();
-    private string selectedCategory = "Select Genre";
-    private string currentView = "";
-
-    private void SuggestRecipe()
-    {
-        var suggestion = Recipe.SuggestRecipeBasedOnIngredientsOwned();
-        // Assuming suggestion.Keys contains the Recipe objects
-        activeRecipes = suggestion.Keys.ToList();
-        currentView = "Random Suggestion";
-        selectedCategory = "Select Genre";
-    }
-
-    private void FilterByGenre(RecipeGenre genre)
-    {
-        selectedCategory = genre.ToString();
-        currentView = genre.ToString();
-
-        // IMPORTANT: Update activeRecipes so the UI re-renders with the filtered list
-        // Assuming your method looks something like this:
-        activeRecipes = Recipe.SuggestRecipeBasedOnGenre(genre);
-    }
-}
