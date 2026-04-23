@@ -34,15 +34,29 @@
             this.Instructions = newInstructions;
             this.Ingredients = newIngredients;
         }
-        public static Dictionary<Recipe, int> SuggestRecipeBasedOnIngredientsOwned()
+        public static List<(Recipe Recipe, double MatchPercent)> SuggestRecipeBasedOnIngredientsOwned()
         {
+            if (App.Recipes == null || App.Ingredients == null)
+                return new List<(Recipe, double)>();
+
+            var ownedIngredientNames = App.Ingredients.Keys
+                .Select(i => i.Name)
+                .ToHashSet();
+
             return App.Recipes
-                .ToDictionary(
-                    recipe => recipe,
-                    recipe => recipe.Ingredients.Count(i => App.Ingredients.Contains(i))
-                )
-                .OrderByDescending(x => x.Value)
-                .ToDictionary(x => x.Key, x => x.Value);
+                .Select(recipe =>
+                {
+                    var total = recipe.Ingredients.Count;
+                    var matches = recipe.Ingredients.Count(i =>
+                        ownedIngredientNames.Contains(i.Key.Name));
+
+                    double percent = total == 0 ? 0 : (double)matches / total;
+
+                    return (Recipe: recipe, MatchPercent: percent);
+                })
+                .OrderByDescending(x => x.MatchPercent)
+                .ThenBy(x => x.Recipe.Name)
+                .ToList();
         }
         public static List<Recipe> SuggestRecipeBasedOnGenre(RecipeGenre genre)
         {

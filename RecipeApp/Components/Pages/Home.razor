@@ -1,10 +1,96 @@
-﻿@namespace RecipeApp
+﻿@using RecipeApp.Classes
+@rendermode InteractiveServer
 @page "/"
 
-<PageTitle>Home</PageTitle>
+@code {
+    private List<Recipe> ActiveRecipes = new();
+    private RecipeGenre RecipeGenre;
+    private bool ShowRecipeModal = false;
+    private bool ShowGenreModal = false;
 
-<h1>Hello, world!</h1>
 
-Welcome to your new app.
+    private void SuggestRecipe()
+    {
+        var suggestion = Recipe.SuggestRecipeBasedOnIngredientsOwned();
+
+        ActiveRecipes = suggestion
+            .Select(x => x.Recipe)
+            .ToList();
+
+        ShowRecipeModal = ActiveRecipes.Count > 0;
+    }
+
+    private void FilterByGenre(RecipeGenre genre)
+    {
+        ActiveRecipes = Recipe.SuggestRecipeBasedOnGenre(RecipeGenre);
+        ShowRecipeModal = true;
+        ShowGenreModal = false;
+    }
+
+    private void ShowGenreModalOnClick()
+    {
+        ShowGenreModal = true;
+    }
+}
+
+<h2>Recipe Finder</h2>
+
+<div class="suggest-recipes-main-container">
+    <div class="suggest-recipes-button-container">
+        <button class="add-button" @onclick="SuggestRecipe">Suggest Recipe From Ingredients</button>
+        <button class="add-button" @onclick="ShowGenreModalOnClick">Suggest Recipe From Genre</button>
+    </div>
+
+    @if (ShowGenreModal)
+        {
+            <form>
+                <label>Genre:</label><br>
+                <select @bind="RecipeGenre" required class="form-input" style="padding: 0.4rem; padding-left: 0rem">
+                    <option>@RecipeGenre.Breakfast</option>
+                    <option>@RecipeGenre.Lunch</option>
+                    <option>@RecipeGenre.Dinner</option>
+                    <option>@RecipeGenre.Dessert</option>
+                </select><br>
+                <button type="button" class="action-button" @onclick="() => FilterByGenre(RecipeGenre)">Suggest</button>
+            </form>
+        }
+</div>
 
 
+@if (ActiveRecipes.Count > 0 && ShowRecipeModal)
+{
+    @foreach (var recipe in ActiveRecipes)
+    {
+        <div class="recipe-card">
+            <h2 class="recipe-card-title">@recipe.Name</h2>
+            <div class="recipe-card-main-container">
+                <h5 style="font-weight: bold">Genre:</h5>
+                <p>@recipe.Genre.ToString()</p>
+                <h5 style="font-weight: bold">Ingredients:</h5>
+                @foreach (var ingredient in recipe.Ingredients)
+                {
+                    <div class="recipe-card-individual-ingredient-display-container">
+                        <p style="padding-left: 1rem; padding-right: 0.25rem">- @ingredient.Key.Name: </p>
+                        @if (ingredient.Key.Type == IngredientType.Meat || ingredient.Key.Type == IngredientType.Seafood
+                            || ingredient.Key.Type == IngredientType.Poultry || ingredient.Key.Type == IngredientType.Dairy
+                            || ingredient.Key.Type == IngredientType.Liquid || ingredient.Key.Type == IngredientType.Grain
+                            || ingredient.Key.Type == IngredientType.Legume || ingredient.Key.Type == IngredientType.Sweetener)
+                        {
+                            <p>@ingredient.Value.ToString() oz</p>
+                        }
+                        else if (ingredient.Key.Type == IngredientType.Seasoning)
+                        {
+                            <p>@ingredient.Value.ToString() tsp</p>
+                        }
+                        else
+                        {
+                            <p>@ingredient.Value</p>
+                        }
+                    </div>
+                }
+                <h5 style="font-weight: bold; margin-top: 1rem">Instructions:</h5>
+                <p>@recipe.Instructions</p>
+            </div>
+        </div>
+    }
+}

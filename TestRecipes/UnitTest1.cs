@@ -181,26 +181,27 @@ namespace TestRecipes
         public void SuggestRecipeBasedOnIngredientsOwned()
         {
             App.Recipes.Clear();
+
             Dictionary<Ingredient, int> ingredients = new Dictionary<Ingredient, int>();
-            ingredients.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
+            ingredients.Add(new Ingredient("cream", IngredientType.Dairy, 3.00m), 2);
             ingredients.Add(new Ingredient("apple", IngredientType.Fruit, 0.70m), 3);
 
             Dictionary<Ingredient, int> ingredients2 = new Dictionary<Ingredient, int>();
-            ingredients.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
-            ingredients2.Add(new Ingredient("peporoni", IngredientType.Meat, 0.70m), 3);
+            ingredients2.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
+            ingredients2.Add(new Ingredient("pepperoni", IngredientType.Meat, 0.70m), 3);
 
-            Recipe recipe = new Recipe("pie", "Bake", RecipeGenre.Dessert, ingredients);
+            Recipe recipe = new Recipe("tart", "Bake", RecipeGenre.Dessert, ingredients);
             Recipe recipe2 = new Recipe("pizza", "Bake2", RecipeGenre.Dessert, ingredients2);
-            recipe2.AddRecipe();
+
             recipe.AddRecipe();
-            
+            recipe2.AddRecipe();
+
             App.Ingredients.Clear();
             App.Ingredients.Add(new Ingredient("flour", IngredientType.Grain, 3.00m), 2);
 
             var suggestedList = Recipe.SuggestRecipeBasedOnIngredientsOwned();
 
-            Assert.Contains(suggestedList.First().Key, new[] { recipe, recipe2 });
-
+            Assert.Equal(recipe2, suggestedList.First().Recipe);
         }
         [Fact]
         public void SuggestRecipeBasedOnGenre()
